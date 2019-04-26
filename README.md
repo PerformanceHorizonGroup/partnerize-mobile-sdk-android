@@ -13,12 +13,24 @@ The SDK provides two model classes; `Conversion` and `ConversionItem`, the combi
 
 ## Installation
 
-The Partnerize Mobile SDK for Android has been published
+The Partnerize Mobile SDK for Android has been published as a maven package so the dependency can be included in your `app/build.gradle`:
 
 ```java
 dependencies {
     // Partnerize App Tracking
     implementation 'com.partnerize.android:tracking:1.0'
+}
+```
+
+You may also need to add the following to your `project/build.gradle` file.
+
+```java
+buildscript {
+    repositories {
+        maven {
+            url  "https://dl.bintray.com/performancehorizongroup/android"
+        }
+    }
 }
 ```
 
