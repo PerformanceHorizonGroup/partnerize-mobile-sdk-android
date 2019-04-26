@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+    // Partnerize dependencies
+    project(':partnerize-tracking')
+
+    // Unit tests
+    testImplementation 'junit:junit:4.12'
+    testImplementation project(path: ':partnerize-tracking')
+
+    // Connected tests
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation project(path: ':partnerize-tracking')
+}
+
+android {
+    compileSdkVersion project.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.versionCode
+        versionName project.ext.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
