@@ -1,0 +1,57 @@
+image: jangrewe/gitlab-ci-android
+
+variables:
+  ANDROID_COMPILE_SDK: "28"
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .m2/
+    - .gradle/
+
+stages:
+  - build
+  - test
+
+before_script:
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - chmod +x ./gradlew
+  - apt-get update -y && apt-get install wget -y
+
+.build_template: &build
+  stage: build
+  artifacts:
+    expire_in: 4 hours
+    paths:
+      - app/build/outputs/
+
+build:develop:
+  <<: *build
+  script:
+    - ./gradlew assembleDebug
+
+build:release:
+  <<: *build
+  script:
+    - ./gradlew assembleRelease
+
+.test_template: &test
+  stage: test
+
+test:unit:
+  <<: *test
+  script:
+    - ./gradlew test
+
+test:functional:
+  <<: *test
+  script:
+    - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+    - chmod +x android-wait-for-emulator
+    - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86"
+    - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager --update
+    - echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -k "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86" -n test
+    - ${ANDROID_HOME}/tools/emulator -avd test -no-window -no-audio
+    - ./android-wait-for-emulator
+    - adb shell input keyevent 82
+    - ./gradlew cAT
