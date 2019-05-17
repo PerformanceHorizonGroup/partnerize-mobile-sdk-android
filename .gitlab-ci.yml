@@ -2,6 +2,7 @@ image: jangrewe/gitlab-ci-android
 
 variables:
   ANDROID_COMPILE_SDK: "28"
+  EMULATOR_VERSION: "24"
 
 cache:
   key: ${CI_PROJECT_ID}
