@@ -176,6 +176,8 @@ public class Conversion implements Parcelable {
 
     /**
      * Constructs a new builder, copying the attributes from this Conversion.
+     *
+     * @return conversion {@link Builder}
      */
     public Builder buildUpon() {
         return new Builder(mClickRef)
@@ -337,6 +339,8 @@ public class Conversion implements Parcelable {
 
         /**
          * Constructs a new builder, copying the attributes from this Url.
+         *
+         * @return the {@link Builder}
          */
         public Builder buildUpon() {
             return new Builder(mConversion)

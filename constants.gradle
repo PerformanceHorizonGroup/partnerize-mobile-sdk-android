@@ -16,9 +16,34 @@
 
 project.ext {
     gradleVersion = "3.4.0"
+
     compileSdkVersion = 28
     minSdkVersion = 15
     targetSdkVersion = 28
+
     versionCode = 1
     versionName = "1.0"
+
+    bintrayRepo = 'android'
+    bintrayName = 'tracking'
+    bintrayOrganisation = 'performancehorizongroup'
+
+    publishedGroupId = 'com.partnerize.android'
+    libraryName = 'tracking'
+    artifact = 'tracking'
+
+    libraryDescription = 'Partnerize Android mobile SDK'
+
+    siteUrl = 'https://github.com/PerformanceHorizonGroup/partnerize-mobile-sdk-android'
+    gitUrl = 'https://github.com/PerformanceHorizonGroup/partnerize-mobile-sdk-android.git'
+
+    libraryVersion = '1.0'
+
+    developerId = 'performancehorizongroup'
+    developerName = 'Performance Horizon Group'
+    developerEmail = 'bet@partnerize.io'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
