@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion project.ext.compileSdkVersion
@@ -19,4 +20,9 @@ android {
         }
     }
 
+}
+
+if (project.rootProject.file('local.properties').exists()) {
+    apply from: "${rootDir}/install.gradle"
+    apply from: "${rootDir}/bintray.gradle"
 }

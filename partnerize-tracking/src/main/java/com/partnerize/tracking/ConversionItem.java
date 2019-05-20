@@ -79,6 +79,8 @@ public class ConversionItem implements Parcelable {
 
     /**
      * Constructs a new builder, copying the attributes from this ConversionItem.
+     *
+     * @return conversion item {@link Builder}
      */
     public Builder buildUpon() {
         return new Builder(mValue, mCategory)
