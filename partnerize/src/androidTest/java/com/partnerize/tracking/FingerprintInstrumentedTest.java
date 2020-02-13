@@ -1,5 +1,7 @@
 package com.partnerize.tracking;
 
+import android.app.Instrumentation;
+
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -9,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import androidx.test.annotation.UiThreadTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.partnerize.all.TestActivity;
@@ -25,6 +28,7 @@ public class FingerprintInstrumentedTest {
 
         final TestActivity activity = (TestActivity) activityRule.getActivity();
 
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
         activityRule.runOnUiThread(new Runnable() {
             @Override
@@ -37,6 +41,8 @@ public class FingerprintInstrumentedTest {
                 });
             }
         });
+
+
 
         String actual = null;
 

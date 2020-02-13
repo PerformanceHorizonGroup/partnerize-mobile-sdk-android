@@ -38,7 +38,7 @@ public final class Fingerprint {
          * @param json The JSON string sent from JavaScript.
          */
         @JavascriptInterface
-        public void postMessage(String json) {
+        public void postMessage(String json, String transferList) {
             try {
                 delegate.complete(json);
             } catch (JSONException ex) {
