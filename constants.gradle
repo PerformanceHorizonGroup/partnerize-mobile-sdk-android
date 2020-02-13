@@ -15,7 +15,7 @@
  */
 
 project.ext {
-    gradleVersion = "3.4.0"
+    gradleVersion = "3.5.3"
 
     compileSdkVersion = 28
     minSdkVersion = 15
