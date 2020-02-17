@@ -33,10 +33,15 @@ public class FingerprintInstrumentedTest {
         activityRule.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Fingerprint.collect(activity, new Runnable() {
+                Fingerprint.collect(activity, new Fingerprint.FingerpintCompletable() {
                     @Override
-                    public void run() {
+                    public void complete() {
                         expectation.complete("success");
+                    }
+
+                    @Override
+                    public void fail(FingerprintException ex) {
+                        expectation.complete("fail");
                     }
                 });
             }
