@@ -1,4 +1,4 @@
-package com.partnerize.tracking;
+package com.partnerize.tracking.Fingerprint;
 
 public class FingerprintException extends Exception {
     public FingerprintException(String message)  {

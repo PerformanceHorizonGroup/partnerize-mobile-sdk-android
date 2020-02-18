@@ -34,6 +34,25 @@ public final class Utility {
         return null ;
     }
 
+    /**
+     * Converts a Map structure to a JSON String.
+     * @param map The map.
+     * @return The JSON String
+     * @throws JSONException If there's an error with the JSON structure.
+     */
+    public static String mapToJson(Map<String, Object> map) throws JSONException {
+        JSONObject jsonData = new JSONObject();
+        for (String key : map.keySet()) {
+            Object value = map.get(key);
+            if (value instanceof Map<?, ?>) {
+                Map<String, Object> subMap = (Map<String, Object>)value;
+                value = mapToJson(subMap);
+            }
+            jsonData.put(key, value);
+        }
+        return jsonData.toString();
+    }
+
     private static Map<String, Object> _jsonToMap_(JSONObject json) throws JSONException {
         Map<String, Object> retMap = new HashMap<String, Object>();
 

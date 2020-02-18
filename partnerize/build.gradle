@@ -1,4 +1,7 @@
+//noinspection GradleDependency
 apply plugin: 'com.android.library'
+
+repositories { jcenter() }
 
 dependencies {
     // Partnerize dependencies
@@ -10,24 +13,35 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation project(path: ':partnerize-tracking')
 
+    // version 3+ has issues on android
+    testImplementation "org.mockito:mockito-core:2.28.2"
+
 
     // Connected tests
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation project(path: ':partnerize-tracking')
     androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation "org.mockito:mockito-android:2.28.2"
 }
 
 android {
     compileSdkVersion project.ext.compileSdkVersion
 
     defaultConfig {
+        def addConstant = {constantName, constantValue ->
+            manifestPlaceholders += [ (constantName):constantValue]
+            buildConfigField "String", "${constantName}", "\"${constantValue}\""
+        }
+
         minSdkVersion project.ext.minSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.versionCode
         versionName project.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        addConstant("FINGERPRINT_API_URL", "http://development.example.com/api/v1/")
     }
 
     buildTypes {
