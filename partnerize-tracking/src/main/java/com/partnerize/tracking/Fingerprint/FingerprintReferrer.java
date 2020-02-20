@@ -1,7 +1,6 @@
 package com.partnerize.tracking.Fingerprint;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.RemoteException;
 
 import com.android.installreferrer.api.InstallReferrerClient;
@@ -14,10 +13,19 @@ import com.android.installreferrer.api.ReferrerDetails;
 class FingerprintReferrer
 {
     public enum ReferrerServiceStatus {
-        OK,
-        ERROR,
-        NOT_SUPPORTED,
-        PERMISSION_DENIED
+        OK(0),
+        ERROR(1),
+        NOT_SUPPORTED(2),
+        PERMISSION_DENIED(3);
+
+        private final int value;
+        ReferrerServiceStatus(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
     static final class ReferrerResult {
@@ -25,7 +33,7 @@ class FingerprintReferrer
         String referrer;
     }
 
-    private static boolean isReferrerAvailable() {
+    private static boolean isReferrerServiceAvailable() {
         boolean success = false;
         try {
             Class.forName("com.android.installreferrer.api.InstallReferrerStateListener");
@@ -38,31 +46,45 @@ class FingerprintReferrer
         return success;
     }
 
-    private static boolean isPermissionGranted(Context context) {
-        int value = context.checkCallingOrSelfPermission("com.android.vending.INSTALL_REFERRER");
-        if (value == PackageManager.PERMISSION_DENIED) {
-            return false;
-        }
-        return true;
-    }
+    private static ReferrerResult getHandledReferrer(final Prefs prefs) {
+        if(prefs.isInstallReferrerSet()) {
+            ReferrerServiceStatus status = ReferrerServiceStatus.values()[prefs.getInstallReferrerStatus()];
 
+            ReferrerResult result = new ReferrerResult();
+            result.serviceStatus = status;
+
+            if(status == ReferrerServiceStatus.OK) {
+                result.referrer = prefs.getInstallReferrer();
+                return result;
+            } else if(status == ReferrerServiceStatus.NOT_SUPPORTED) {
+                result.referrer = "";
+                return result;
+            }
+
+            // otherwise there was previously an error, continue as normal
+        }
+
+        return null;
+    }
     /**
      * Query Google Play service for the install referrer
      * @param context The application context.
      * @param completable Callback with the result.
      */
-    static void getReferrer(Context context, final CompletableResult<FingerprintReferrer.ReferrerResult> completable) {
+    static void getReferrer(final Context context, final Prefs prefs, final CompletableResult<FingerprintReferrer.ReferrerResult> completable) {
 
-        if(!isPermissionGranted(context)) {
-            ReferrerResult result = new ReferrerResult();
-            result.serviceStatus = ReferrerServiceStatus.PERMISSION_DENIED;
-            completable.complete(result);
+        ReferrerResult existingResult = getHandledReferrer(prefs);
+
+        if(existingResult != null) {
+            completable.complete(existingResult);
+            return;
         }
 
-        if(!isReferrerAvailable()) {
-            ReferrerResult result = new ReferrerResult();
-            result.serviceStatus = ReferrerServiceStatus.NOT_SUPPORTED;
-            completable.complete(result);
+        if(!isReferrerServiceAvailable()) {
+            existingResult = new ReferrerResult();
+            existingResult.referrer = "";
+            existingResult.serviceStatus = ReferrerServiceStatus.NOT_SUPPORTED;
+            completable.complete(existingResult);
         }
 
         final InstallReferrerClient client = InstallReferrerClient.newBuilder(context).build();
@@ -78,18 +100,21 @@ class FingerprintReferrer
                             ReferrerDetails details = client.getInstallReferrer();
                             String referrerUrl = details.getInstallReferrer();
 
+                            prefs.setInstallReferrer(referrerUrl);
+
                             result.referrer = referrerUrl;
                             result.serviceStatus = ReferrerServiceStatus.OK;
                         } catch (RemoteException e) {
-                            e.printStackTrace();
                             result.serviceStatus = ReferrerServiceStatus.ERROR;
+                            prefs.setInstallReferrerNotOk(ReferrerServiceStatus.ERROR.getValue());
                         }
-
                         break;
                     case InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
+                        prefs.setInstallReferrerNotOk(ReferrerServiceStatus.NOT_SUPPORTED.getValue());
                         result.serviceStatus = ReferrerServiceStatus.NOT_SUPPORTED;
                         break;
                     case InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
+                        prefs.setInstallReferrerNotOk(ReferrerServiceStatus.ERROR.getValue());
                         result.serviceStatus = ReferrerServiceStatus.ERROR;
                         break;
                 }

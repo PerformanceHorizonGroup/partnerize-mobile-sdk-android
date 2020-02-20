@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Used to collect WebView based information.
  */
-public final class FingerprintCollector {
+public class FingerprintCollector {
 
     private interface JsonCompletable {
         void complete(String json) throws JSONException;
@@ -74,25 +74,29 @@ public final class FingerprintCollector {
     private final Context context;
     private final String googleAdvertisingId;
 
-    public RequestBuilder requestBuilder = new RequestBuilder();
-
+    protected RequestBuilder requestBuilder;
+    protected Prefs prefs;
     /**
      * Create a new FingerprintCollector object.
      * @param context The context to use for collecting fingerprints.
      * @param googleAdvertisingId The Google Advertising Id.
      */
-    public FingerprintCollector(Context context, String googleAdvertisingId) throws MalformedURLException {
+    public FingerprintCollector(Context context, String googleAdvertisingId) {
         this.context = context;
         this.googleAdvertisingId = googleAdvertisingId;
+        requestBuilder = new RequestBuilder();
+        prefs = new Prefs(context);
     }
 
     /**
      * Create a new FingerprintCollector object.
      * @param context The context to use for collecting fingerprints.
      */
-    public FingerprintCollector(Context context) throws MalformedURLException {
+    public FingerprintCollector(Context context) {
         this.context = context;
         this.googleAdvertisingId = null;
+        requestBuilder = new RequestBuilder();
+        prefs = new Prefs(context);
     }
 
     /**
@@ -101,6 +105,35 @@ public final class FingerprintCollector {
      */
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     public void collect(final FingerprintCompletable completable) {
+
+        if(prefs.isFingerprintSet()) {
+            if(prefs.hasFingerprintSent()) {
+                // already sent, nothing left to do.
+                completable.complete();
+                return;
+            }
+
+            try {
+                Map<String, Object> result = Utility.jsonToMap(prefs.getFingerprint());
+                sendFingerprintsToAPI(result, new FingerprintCompletable() {
+                    @Override
+                    public void fail(FingerprintException ex) {
+                        completable.fail(ex);
+                    }
+
+                    @Override
+                    public void complete() {
+                        completable.complete();
+                        prefs.setFingerprintSent(true);
+                    }
+                });
+            } catch (JSONException e) {
+                prefs.setFingerprint("");
+                prefs.setFingerprintSent(false);
+            }
+
+            return;
+        }
 
         synchronized (sync) {
             webView = new WebView(context);
@@ -117,15 +150,25 @@ public final class FingerprintCollector {
                         getNativeFingerprints(map, new CompletableResult<Map<String, Object>>() {
                             @Override
                             public void complete(Map<String, Object> result) {
+
+                                try {
+                                    prefs.setFingerprint(Utility.mapToJson(result));
+                                } catch (JSONException ex) {
+                                    FingerprintException exception = new FingerprintException("Error parsing fingerprint.", ex);
+                                    completable.fail(exception);
+                                    return;
+                                }
+
                                 sendFingerprintsToAPI(result, new FingerprintCompletable() {
                                     @Override
                                     public void fail(FingerprintException ex) {
+                                        prefs.setFingerprintSent(false);
                                         completable.fail(ex);
                                     }
 
                                     @Override
                                     public void complete() {
-
+                                        prefs.setFingerprintSent(true);
                                         completable.complete();
                                     }
                                 });
@@ -167,8 +210,7 @@ public final class FingerprintCollector {
      * @param completable Called when referrer retrieved.
      */
     private void getNativeFingerprints(final Map<String, Object> fingerprints, final CompletableResult<Map<String, Object>> completable) {
-        FingerprintReferrer referrer = new FingerprintReferrer();
-        referrer.getReferrer(context, new CompletableResult<FingerprintReferrer.ReferrerResult>() {
+        FingerprintReferrer.getReferrer(context, prefs, new CompletableResult<FingerprintReferrer.ReferrerResult>() {
             @Override
             public void complete(FingerprintReferrer.ReferrerResult result) {
                 ReferrerJson obj = new ReferrerJson();
