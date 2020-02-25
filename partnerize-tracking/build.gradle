@@ -10,14 +10,29 @@ android {
         versionCode project.ext.versionCode
         versionName project.ext.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        def addConstantTo = {target, constantName, constantValue ->
+            target.manifestPlaceholders += [ (constantName):constantValue]
+            target.buildConfigField "String", "${constantName}", "\"${constantValue}\""
+        }
+
+        debug {
+            addConstantTo(owner, "FINGERPRINT_API_URL", "https://development.example.com/api/v1/")
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            addConstantTo(owner, "FINGERPRINT_API_URL", "https://production.example.com/api/v1/")
         }
+    }
+
+    dependencies {
+        implementation 'com.android.installreferrer:installreferrer:1.1.1'
     }
 
 }
