@@ -1,10 +1,12 @@
-package com.partnerize.tracking;
+package com.partnerize.tracking.Networking;
+
+import com.partnerize.tracking.CompletableRequest;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class PostRequest implements IRequest {
+public class PostRequest implements IPostRequest {
 
     private URL url;
 

@@ -19,6 +19,7 @@ import com.partnerize.tracking.Fingerprint.FingerprintCollector;
 import com.partnerize.tracking.Fingerprint.FingerprintCompletable;
 import com.partnerize.tracking.Fingerprint.FingerprintException;
 import com.partnerize.tracking.Fingerprint.Prefs;
+import com.partnerize.tracking.Networking.RequestBuilder;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

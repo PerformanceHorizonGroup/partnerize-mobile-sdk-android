@@ -23,15 +23,15 @@ public final class Utility {
      */
     public static Map<String, Object> jsonToMap(Object json) throws JSONException {
 
-        if(json instanceof JSONObject)
-            return _jsonToMap_((JSONObject)json) ;
-
+        if(json instanceof JSONObject) {
+            return _jsonToMap_((JSONObject) json);
+        }
         else if (json instanceof String)
         {
-            JSONObject jsonObject = new JSONObject((String)json) ;
-            return _jsonToMap_(jsonObject) ;
+            JSONObject jsonObject = new JSONObject((String)json);
+            return _jsonToMap_(jsonObject);
         }
-        return null ;
+        return null;
     }
 
     /**

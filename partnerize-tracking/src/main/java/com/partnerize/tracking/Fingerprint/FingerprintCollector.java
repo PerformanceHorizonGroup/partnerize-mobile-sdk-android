@@ -11,8 +11,8 @@ import android.webkit.WebViewClient;
 
 import com.partnerize.tracking.BuildConfig;
 import com.partnerize.tracking.CompletableRequest;
-import com.partnerize.tracking.IRequest;
-import com.partnerize.tracking.RequestBuilder;
+import com.partnerize.tracking.Networking.IPostRequest;
+import com.partnerize.tracking.Networking.RequestBuilder;
 import com.partnerize.tracking.Utility;
 
 import org.json.JSONException;
@@ -234,7 +234,7 @@ public class FingerprintCollector {
         try {
             String json = Utility.mapToJson(fingerprints);
 
-            IRequest request = requestBuilder.buildPostRequest(new URL(BuildConfig.FINGERPRINT_API_URL));
+            IPostRequest request = requestBuilder.buildPostRequest(new URL(BuildConfig.FINGERPRINT_API_URL));
             request.send(json, new CompletableRequest() {
                 @SuppressLint("DefaultLocale")
                 @Override
