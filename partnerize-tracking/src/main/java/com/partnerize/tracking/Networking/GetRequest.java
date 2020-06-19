@@ -1,7 +1,5 @@
 package com.partnerize.tracking.Networking;
 
-import com.partnerize.tracking.CompletableRequestWithResponse;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

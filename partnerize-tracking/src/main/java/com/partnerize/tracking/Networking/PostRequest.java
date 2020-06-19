@@ -1,7 +1,5 @@
 package com.partnerize.tracking.Networking;
 
-import com.partnerize.tracking.CompletableRequest;
-
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;

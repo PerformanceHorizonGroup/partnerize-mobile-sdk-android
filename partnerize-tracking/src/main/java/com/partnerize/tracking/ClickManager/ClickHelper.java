@@ -53,6 +53,33 @@ public class ClickHelper {
         }
     }
 
+    public static boolean isClickRequest(Uri uri) {
+
+        if(!ClickHelper.isValidScheme(uri.getScheme())) {
+            return false;
+        }
+
+        final URL url;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        String host = url.getHost();
+
+        if(host == null) {
+            return false;
+        }
+
+        if(!ClickHelper.isValidPartnerizeHostName(url.getHost())) {
+            return false;
+        }
+
+        return ClickHelper.isValidClickUrl(url);
+    }
+
     public static boolean isClickRequest(URL url) {
 
         if(!ClickHelper.isValidScheme(url.getProtocol())) {

@@ -1,5 +1,6 @@
 package com.partnerize.tracking.ClickManager;
 
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.partnerize.tracking.Utility;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class VirtualClick {
+public class VirtualClick {
     private String clickref;
     private String destination;
 

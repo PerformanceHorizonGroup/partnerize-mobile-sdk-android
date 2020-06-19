@@ -10,7 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.partnerize.tracking.BuildConfig;
-import com.partnerize.tracking.CompletableRequest;
+import com.partnerize.tracking.Networking.CompletableRequest;
 import com.partnerize.tracking.Networking.IPostRequest;
 import com.partnerize.tracking.Networking.RequestBuilder;
 import com.partnerize.tracking.Utility;

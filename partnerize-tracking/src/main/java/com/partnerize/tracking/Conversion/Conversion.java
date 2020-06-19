@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.partnerize.tracking;
+package com.partnerize.tracking.Conversion;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -58,6 +58,12 @@ public class Conversion implements Parcelable {
     private final HashMap<String, String> mMetadata = new HashMap<>();
     private final ConversionItem[] mConversionItems;
 
+
+    /**
+     * @deprecated Conversion constructor has been deprecated and may not function as expected on Android API 25 or higher and will be removed in a future release.
+     * Please use X instead.
+     */
+    @Deprecated()
     public Conversion(Intent intent) {
         String clickRef = "";
         Uri uri = intent.getData();

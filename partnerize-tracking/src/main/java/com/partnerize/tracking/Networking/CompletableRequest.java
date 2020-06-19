@@ -1,4 +1,4 @@
-package com.partnerize.tracking;
+package com.partnerize.tracking.Networking;
 
 public interface CompletableRequest {
     void complete(int status);

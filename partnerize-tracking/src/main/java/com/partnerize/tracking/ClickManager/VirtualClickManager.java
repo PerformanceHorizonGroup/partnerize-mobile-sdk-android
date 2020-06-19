@@ -1,19 +1,28 @@
 package com.partnerize.tracking.ClickManager;
 
-import com.partnerize.tracking.CompletableRequestWithResponse;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+
+import com.partnerize.tracking.Conversion.Conversion;
+import com.partnerize.tracking.Networking.CompletableRequestWithResponse;
 import com.partnerize.tracking.Networking.IGetRequest;
 import com.partnerize.tracking.Networking.RequestBuilder;
+import com.partnerize.tracking.Storage.PartnerizePreferences;
 
 import java.net.URL;
 
 public class VirtualClickManager {
-
     private RequestBuilder requestBuilder;
     private VirtualClick.VirtualClickBuilder clickBuilder;
 
     public VirtualClickManager() {
         requestBuilder = new RequestBuilder();
         clickBuilder = new VirtualClick.VirtualClickBuilder();
+    }
+    public boolean isClickRequest(Uri uri) {
+        return ClickHelper.isClickRequest(uri);
     }
 
     public boolean isClickRequest(URL url) {
