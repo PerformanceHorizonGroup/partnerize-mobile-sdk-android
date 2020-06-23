@@ -16,8 +16,6 @@
 
 package com.partnerize.tracking;
 
-import com.partnerize.tracking.Conversion.ConversionItem;
-
 import org.junit.Test;
 
 import java.util.HashMap;

@@ -15,7 +15,7 @@ public class ClickHelper {
     private static List<String> validTopLevelDomains = new ArrayList<>(Arrays.asList("prf.hn", "partnerize.tech"));
 
 
-    static URL addAPIModeToUri(URL url) throws ClickException {
+    static Uri addAPIModeToUri(Uri url) throws ClickException {
         String clickComponent = String.format("%s/", CLICK_URI_COMPONENT);
         String modeJsonComponent = String.format("%s/", MODE_JSON_COMPONENT);
         String typeMobileComponent = String.format("%s/", TYPE_MOBILE_COMPONENT);
@@ -42,15 +42,10 @@ public class ClickHelper {
         }
 
         String baseUri = String.format("%s/%s/%s", CLICK_URI_COMPONENT, MODE_JSON_COMPONENT, TYPE_MOBILE_COMPONENT);
-        String baseUrl = String.format("%s://%s", url.getProtocol(), url.getHost());
+        String baseUrl = String.format("%s://%s", url.getScheme(), url.getHost());
         String newUrl = String.format("%s/%s/%s", baseUrl, baseUri, modifiedPath);
 
-        try {
-            return new URL(newUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new ClickException("Failed to add API mode to Uri. Malformed URL.", e);
-        }
+        return Uri.parse(newUrl);
     }
 
     public static boolean isClickRequest(Uri uri) {
@@ -77,7 +72,9 @@ public class ClickHelper {
             return false;
         }
 
-        return ClickHelper.isValidClickUrl(url);
+        boolean valid = ClickHelper.isValidClickUrl(url);
+
+        return valid;
     }
 
     public static boolean isClickRequest(URL url) {
@@ -104,7 +101,8 @@ public class ClickHelper {
     }
 
     private static boolean isValidPartnerizeHostName(String hostname) {
-        String[] parts = hostname.split(".");
+        String[] parts = hostname.split("\\.");
+
 
         if(parts.length < 2) {
             return false;
@@ -124,6 +122,6 @@ public class ClickHelper {
             return false;
         }
 
-        return segments.get(1).equals(CLICK_URI_COMPONENT);
+        return segments.get(0).equals(CLICK_URI_COMPONENT);
     }
 }

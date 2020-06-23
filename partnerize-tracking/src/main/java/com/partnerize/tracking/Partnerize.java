@@ -1,23 +1,17 @@
 package com.partnerize.tracking;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
+import android.util.Log;
 
 import com.partnerize.tracking.ClickManager.ClickException;
-import com.partnerize.tracking.ClickManager.CompletableClick;
 import com.partnerize.tracking.ClickManager.VirtualClick;
 import com.partnerize.tracking.ClickManager.VirtualClickManager;
-import com.partnerize.tracking.Conversion.CompletableConversion;
-import com.partnerize.tracking.Conversion.Conversion;
-import com.partnerize.tracking.Conversion.ConversionException;
 import com.partnerize.tracking.Storage.PartnerizePreferences;
 
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Hashtable;
 
 public final class Partnerize implements IPartnerizeSDK {
     private PartnerizePreferences prefs;
@@ -27,63 +21,87 @@ public final class Partnerize implements IPartnerizeSDK {
     }
 
     @Override
-    public void beginConversion(URL url, final CompletableConversion completable) throws IllegalArgumentException  {
-        if(url == null)
-            throw new IllegalArgumentException("Parameter url must not be null");
-
-        if(completable == null)
-            throw new IllegalArgumentException("Parameter completable must not be null");
-
-
-        VirtualClickManager manager = new VirtualClickManager();
-
-        if(manager.isClickRequest(url)) {
-            continueVirtualClick(manager, url, completable);
-        }
-    }
-
-    @Override
-    public void beginConversion(Intent intent, final CompletableConversion completable) throws IllegalArgumentException {
-        if(intent == null)
-            throw new IllegalArgumentException("Parameter intent must not be null");
+    public void beginConversion(Uri uri, final CompletableClick completable) throws IllegalArgumentException {
+        if(uri == null)
+            throw new IllegalArgumentException("Parameter uri must not be null");
 
         if(completable == null)
             throw new IllegalArgumentException("Parameter completable must not be null");
 
         VirtualClickManager manager = new VirtualClickManager();
 
-        Uri uri = intent.getData();
 
         if(manager.isClickRequest(uri)) {
-            URL url = null;
-            try {
-                url = new URL(uri.toString());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                completable.error(new ConversionException("Invalid Intent URI", e));
+
+            manager.createVirtualClick(uri, new com.partnerize.tracking.ClickManager.CompletableClick() {
+                @Override
+                public void complete(VirtualClick click) {
+                    String clickRef = click.getClickref();
+
+                    prefs.setClickRef(clickRef);
+
+                    completable.complete(Uri.parse(click.getDestination()), clickRef);
+                }
+
+                @Override
+                public void error(ClickException ex) {
+                    completable.error(new PartnerizeException("Failed to create click.", ex));
+                }
+            });
+        } else {
+            UriClickRef result = filterClickRef(uri);
+
+            if(result.clickRef != null && result.clickRef.length() > 0) {
+                prefs.setClickRef(result.clickRef);
+            } else {
+                Log.i("PARTNERIZE", "No clickRef received.");
             }
 
-            continueVirtualClick(manager, url, completable);
+            completable.complete(result.uri, result.clickRef);
         }
     }
 
-    private void continueVirtualClick(VirtualClickManager manager, URL url, final CompletableConversion completable) {
-        manager.createVirtualClick(url, new CompletableClick() {
-            @Override
-            public void complete(VirtualClick click) {
-                String clickRef = click.getClickref();
+    static class UriClickRef {
+        private Uri uri;
+        private String clickRef;
 
-                prefs.setClickRef(clickRef);
-
-                Conversion.Builder builder = new Conversion.Builder(clickRef);
-                Conversion conversion = builder.build();
-                completable.complete(conversion);
-            }
-
-            @Override
-            public void error(ClickException ex) {
-                completable.error(new ConversionException("Failed to create Conversion.", ex));
-            }
-        });
+        UriClickRef(Uri uri, String clickRef) {
+            this.uri = uri;
+            this.clickRef = clickRef;
+        }
     }
+
+    private UriClickRef filterClickRef(Uri uri) {
+
+        String value = uri.getQueryParameter("app_clickref");
+
+        UriClickRef result;
+        if(value != null)
+        {
+            // temp store exiting params
+            HashSet<String> queryParams = new HashSet<>(uri.getQueryParameterNames());
+
+            // we don't need this
+            queryParams.remove("app_clickref");
+
+            Hashtable<String, String> map = new Hashtable<>();
+
+            // store all other params for remapping
+            for (String param : queryParams) {
+                map.put(param, uri.getQueryParameter(param));
+            }
+
+            Uri.Builder builder = uri.buildUpon().clearQuery();
+
+            // reconstruct the query string
+            for (String param : map.keySet()) {
+                builder.appendQueryParameter(param, map.get(param));
+            }
+
+            uri = builder.build();
+        }
+
+        return new UriClickRef(uri, value);
+    }
+
 }

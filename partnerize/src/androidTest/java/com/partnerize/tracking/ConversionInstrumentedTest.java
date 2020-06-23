@@ -21,9 +21,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
 
-import com.partnerize.tracking.Conversion.Conversion;
-import com.partnerize.tracking.Conversion.ConversionItem;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

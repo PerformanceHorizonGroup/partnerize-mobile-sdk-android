@@ -1,20 +1,32 @@
 package com.partnerize.tracking.Networking;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetRequest implements IGetRequest {
+public class GetRequest extends AsyncTask<Void, Void, AsyncResponse> implements IGetRequest {
+
     private URL url;
+    private CompletableRequestWithResponse completable;
 
     GetRequest(URL url) {
         this.url = url;
     }
 
     @Override
-    public void send(CompletableRequestWithResponse completableRequest) {
+    public void send(final CompletableRequestWithResponse completableRequest) {
+        this.completable = completableRequest;
+        this.execute();
+    }
+
+
+    @Override
+    protected AsyncResponse doInBackground(Void... voids) {
+
         try {
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
@@ -24,7 +36,6 @@ public class GetRequest implements IGetRequest {
             connection.setConnectTimeout(20000);
 
             int status = connection.getResponseCode();
-
 
             InputStream inputStream;
             if(status >= 200 && status < 300) {
@@ -44,10 +55,20 @@ public class GetRequest implements IGetRequest {
                 response.append(currentLine);
 
             in.close();
-
-            completableRequest.complete(status, response.toString());
+            AsyncResponse r = new AsyncResponse(status, response.toString());
+            return r;
         } catch (Exception e) {
-            completableRequest.error(e);
+            AsyncResponse r = new AsyncResponse(e);
+            return r;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(AsyncResponse asyncResponse) {
+        if(asyncResponse.getException() != null) {
+            completable.error(asyncResponse.getException());
+        } else {
+            completable.complete(asyncResponse.getStatus(), asyncResponse.getBody());
         }
     }
 }

@@ -1,13 +1,7 @@
 package com.partnerize.tracking;
 
-import android.content.Intent;
-
-import com.partnerize.tracking.Conversion.CompletableConversion;
-
-import java.net.URL;
+import android.net.Uri;
 
 interface IPartnerizeSDK {
-    void beginConversion(URL url, CompletableConversion completable);
-
-    void beginConversion(Intent intent, CompletableConversion completable);
+    void beginConversion(Uri uri, final CompletableClick completable);
 }

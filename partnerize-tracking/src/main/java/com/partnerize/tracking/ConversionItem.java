@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.partnerize.tracking.Conversion;
+package com.partnerize.tracking;
 
 import android.os.Parcel;
 import android.os.Parcelable;
