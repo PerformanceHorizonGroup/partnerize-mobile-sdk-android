@@ -5,30 +5,41 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.partnerize.tracking.ClickManager.ClickException;
+import com.partnerize.tracking.ClickManager.IClickStorage;
 import com.partnerize.tracking.ClickManager.VirtualClick;
 import com.partnerize.tracking.ClickManager.VirtualClickManager;
 import com.partnerize.tracking.Storage.PartnerizePreferences;
 
-
 import java.util.HashSet;
 import java.util.Hashtable;
 
-public final class Partnerize implements IPartnerizeSDK {
-    private PartnerizePreferences prefs;
+public class Partnerize implements PartnerizeSDK {
+
+    private static final String CLICK_REF = "app_clickref";
+
+    protected IClickStorage prefs;
 
     public Partnerize(Context context) {
-        prefs = new PartnerizePreferences(context);
+        prefs = createPrefs(context);
+    }
+
+    protected IClickStorage createPrefs(Context context) {
+        return new PartnerizePreferences(context);
+    }
+
+    protected VirtualClickManager createClickManager() {
+        return new VirtualClickManager();
     }
 
     @Override
     public void beginConversion(Uri uri, final CompletableClick completable) throws IllegalArgumentException {
-        if(uri == null)
-            throw new IllegalArgumentException("Parameter uri must not be null");
+        if(uri == null || uri.getPath() == "")
+            throw new IllegalArgumentException("Parameter uri must not be null or empty");
 
         if(completable == null)
             throw new IllegalArgumentException("Parameter completable must not be null");
 
-        VirtualClickManager manager = new VirtualClickManager();
+        VirtualClickManager manager = createClickManager();
 
 
         if(manager.isClickRequest(uri)) {
@@ -61,6 +72,11 @@ public final class Partnerize implements IPartnerizeSDK {
         }
     }
 
+    @Override
+    public String getClickRef() {
+        return prefs.getClickRef();
+    }
+
     static class UriClickRef {
         private Uri uri;
         private String clickRef;
@@ -73,16 +89,15 @@ public final class Partnerize implements IPartnerizeSDK {
 
     private UriClickRef filterClickRef(Uri uri) {
 
-        String value = uri.getQueryParameter("app_clickref");
+        String value = uri.getQueryParameter(CLICK_REF);
 
-        UriClickRef result;
         if(value != null)
         {
             // temp store exiting params
             HashSet<String> queryParams = new HashSet<>(uri.getQueryParameterNames());
 
             // we don't need this
-            queryParams.remove("app_clickref");
+            queryParams.remove(CLICK_REF);
 
             Hashtable<String, String> map = new Hashtable<>();
 

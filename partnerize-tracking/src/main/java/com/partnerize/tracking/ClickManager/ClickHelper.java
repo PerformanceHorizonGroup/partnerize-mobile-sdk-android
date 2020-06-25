@@ -15,13 +15,13 @@ public class ClickHelper {
     private static List<String> validTopLevelDomains = new ArrayList<>(Arrays.asList("prf.hn", "partnerize.tech"));
 
 
-    static Uri addAPIModeToUri(Uri url) throws ClickException {
+    static Uri addAPIModeToUri(Uri uri) throws ClickException {
         String clickComponent = String.format("%s/", CLICK_URI_COMPONENT);
         String modeJsonComponent = String.format("%s/", MODE_JSON_COMPONENT);
         String typeMobileComponent = String.format("%s/", TYPE_MOBILE_COMPONENT);
         final String empty = "";
 
-        String modifiedPath = url.getPath();
+        String modifiedPath = uri.getPath();
 
         if(modifiedPath == null) {
             throw new ClickException("Failed to add API mode to Uri. Missing path.");
@@ -42,58 +42,30 @@ public class ClickHelper {
         }
 
         String baseUri = String.format("%s/%s/%s", CLICK_URI_COMPONENT, MODE_JSON_COMPONENT, TYPE_MOBILE_COMPONENT);
-        String baseUrl = String.format("%s://%s", url.getScheme(), url.getHost());
+        String baseUrl = String.format("%s://%s", uri.getScheme(), uri.getHost());
         String newUrl = String.format("%s/%s/%s", baseUrl, baseUri, modifiedPath);
 
         return Uri.parse(newUrl);
     }
 
-    public static boolean isClickRequest(Uri uri) {
-
+    static boolean isClickRequest(Uri uri) {
         if(!ClickHelper.isValidScheme(uri.getScheme())) {
             return false;
         }
 
-        final URL url;
-        try {
-            url = new URL(uri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        String host = url.getHost();
+        String host = uri.getHost();
 
         if(host == null) {
             return false;
         }
 
-        if(!ClickHelper.isValidPartnerizeHostName(url.getHost())) {
+        if(!ClickHelper.isValidPartnerizeHostName(host)) {
             return false;
         }
 
-        boolean valid = ClickHelper.isValidClickUrl(url);
+        boolean valid = ClickHelper.isValidClickUrl(uri);
 
         return valid;
-    }
-
-    public static boolean isClickRequest(URL url) {
-
-        if(!ClickHelper.isValidScheme(url.getProtocol())) {
-            return false;
-        }
-
-        String host = url.getHost();
-
-        if(host == null) {
-            return false;
-        }
-
-        if(!ClickHelper.isValidPartnerizeHostName(url.getHost())) {
-            return false;
-        }
-
-        return ClickHelper.isValidClickUrl(url);
     }
 
     private static boolean isValidScheme(String scheme) {
@@ -113,9 +85,7 @@ public class ClickHelper {
         return validTopLevelDomains.contains(topLevelDomain);
     }
 
-    private static boolean isValidClickUrl(URL url) {
-        Uri uri = Uri.parse(url.toString());
-
+    private static boolean isValidClickUrl(Uri uri) {
         List<String> segments = uri.getPathSegments();
 
         if(segments.size() < 2) {

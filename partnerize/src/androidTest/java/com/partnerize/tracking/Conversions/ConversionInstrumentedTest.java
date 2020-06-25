@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-package com.partnerize.tracking;
+package com.partnerize.tracking.Conversions;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
+
+import com.partnerize.tracking.Conversion;
+import com.partnerize.tracking.ConversionItem;
 
 import org.junit.Test;
 

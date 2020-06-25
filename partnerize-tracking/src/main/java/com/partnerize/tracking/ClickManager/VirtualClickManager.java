@@ -10,19 +10,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class VirtualClickManager {
-    private RequestBuilder requestBuilder;
     private VirtualClick.VirtualClickBuilder clickBuilder;
 
     public VirtualClickManager() {
-        requestBuilder = new RequestBuilder();
         clickBuilder = new VirtualClick.VirtualClickBuilder();
     }
-    public boolean isClickRequest(Uri uri) {
-        return ClickHelper.isClickRequest(uri);
+
+    protected RequestBuilder getRequestBuilder() {
+        return new RequestBuilder();
     }
 
-    public boolean isClickRequest(URL url) {
-        return ClickHelper.isClickRequest(url);
+    public boolean isClickRequest(Uri uri) {
+        if(uri == null) {
+            return false;
+        }
+        return ClickHelper.isClickRequest(uri);
     }
 
     public void createVirtualClick(Uri uri, final CompletableClick completable) {
@@ -32,16 +34,23 @@ public class VirtualClickManager {
 
             URL url = new URL(modifiedUrl.toString());
 
+            RequestBuilder requestBuilder = getRequestBuilder();
+
             IGetRequest request = requestBuilder.buildGetRequest(url);
+
             request.send(new CompletableRequestWithResponse() {
                 @Override
                 public void complete(int status, String response) {
-                    try {
-                        VirtualClick click = clickBuilder.buildWithJSON(response);
-                        completable.complete(click);
-                    } catch (ClickException e) {
-                        e.printStackTrace();
-                        completable.error(e);
+                    if(status >= 200 && status < 300) {
+                        try {
+                            VirtualClick click = clickBuilder.buildWithJSON(response);
+                            completable.complete(click);
+                        } catch (ClickException e) {
+                            e.printStackTrace();
+                            completable.error(e);
+                        }
+                    } else {
+                        completable.error(new ClickException("Error Status: " + status));
                     }
                 }
 
