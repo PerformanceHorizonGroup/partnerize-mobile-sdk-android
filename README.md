@@ -118,7 +118,7 @@ protected void onCreate(Bundle savedInstanceState) {
     // inbound intent from partner app
     final Intent intent = getIntent();
 
-    final Uri uri = inbound.getData();
+    final Uri uri = intent.getData();
 
     // uri -> https://example.prf.hn/click/camref:xxx/destination:https://example.domain.com/product/xxxx
 
@@ -132,7 +132,7 @@ protected void onCreate(Bundle savedInstanceState) {
             intent.setData(destination);
 
             // create outbound Intent to view the product and/or register Conversion
-            Conversion conversion = new Conversion(inbound, clickRef);
+            Conversion conversion = new Conversion(intent, clickRef);
         }
 
         @Override
