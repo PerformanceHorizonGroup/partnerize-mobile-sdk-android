@@ -120,13 +120,13 @@ protected void onCreate(Bundle savedInstanceState) {
 
     final Uri uri = inbound.getData();
 
-    // uri -> https://example.prf.hn/click/camref:xxx/destination:https://example.partnerize.com/product/xxxx
+    // uri -> https://example.prf.hn/click/camref:xxx/destination:https://example.domain.com/product/xxxx
 
     Partnerize partnerize = new Partnerize(getApplicationContext());
     partnerize.beginConversion(uri, new CompletableClick() {
         @Override
         public void complete(Uri destination, String clickRef) {
-            // destination -> https://example.partnerize.com/product/xxxx
+            // destination -> https://example.domain.com/product/xxxx
             // clickRef -> xxxxxxxxxxxx
 
             intent.setData(destination);
