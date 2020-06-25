@@ -50,6 +50,21 @@ public class ConversionInstrumentedTest {
     }
 
     @Test
+    public void testIntentAndClickRef() {
+        String clickReference = "click_reference";
+
+        Intent intent = new Intent();
+        intent.setData(new Uri.Builder()
+                .scheme("https")
+                .authority("example.com")
+                .build());
+
+        Conversion conversion = new Conversion(intent, clickReference);
+
+        assertEquals(clickReference, conversion.getClickRef());
+    }
+
+    @Test
     public void testParcel() {
         Conversion conversion = new Conversion.Builder("click_reference")
                 .addConversionItem(new ConversionItem.Builder("19.99", "Shoes").build())

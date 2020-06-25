@@ -4,12 +4,12 @@ The Android Mobile SDK allows you to capture in-app referrals, and easily record
 
 ## Features
 
-The SDK provides two model classes; `Conversion` and `ConversionItem`, the combination of these classes enables the following features within your Android app.
+The SDK provides two model classes; `Conversion` and `ConversionItem`. The `Partnerize` class is also used to provide functionality for dealing with inbound click for limitations on Android API 25+, the combination of these classes enables the following features within your Android app.
 
-* Click reference retrieval from inbound requests to your Android app.
-* Conversion creation with a range of attributes including custom metadata.
-* Conversion item support for accurate shopping basket representation.
-* Deep linking support for Web to App and App to App.
+- Click reference retrieval from inbound requests to your Android app.
+- Conversion creation with a range of attributes including custom metadata.
+- Conversion item support for accurate shopping basket representation.
+- Deep linking support for Web to App and App to App.
 
 ## Installation
 
@@ -106,6 +106,8 @@ conversion = conversion.buildUpon()
 
 When an inbound intent from a mobile web browser or Android app launches your Android app via deep links, the Conversion instance can be constructed from the intent, preserving the click reference.
 
+Android API 25 changed the way deep links are being handled and so links are no longer redirected from the browser, but instead handled directly in the Advertiser app. To handle this scenario, the SDK provides a beginConversion method to register the click with partnerize ready for conversion.
+
 Here’s a snippet that shows how to retrieve the click reference from an Intent
 
 ```java
@@ -113,11 +115,39 @@ protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    Intent intent = getIntent();
-    Conversion conversion = new Conversion(intent);
+    // inbound intent from partner app
+    final Intent intent = getIntent();
 
-    String clickRef = conversion.getClickRef();
+    final Uri uri = inbound.getData();
+
+    // uri -> https://example.prf.hn/click/camref:xxx/destination:https://example.partnerize.com/product/xxxx
+
+    Partnerize partnerize = new Partnerize(getApplicationContext());
+    partnerize.beginConversion(uri, new CompletableClick() {
+        @Override
+        public void complete(Uri destination, String clickRef) {
+            // destination -> https://example.partnerize.com/product/xxxx
+            // clickRef -> xxxxxxxxxxxx
+
+            intent.setData(destination);
+
+            // create outbound Intent to view the product and/or register Conversion
+            Conversion conversion = new Conversion(inbound, clickRef);
+        }
+
+        @Override
+        public void error(PartnerizeException exception) {
+            // handle error
+        }
+    });
 }
+```
+
+`Partnerize` also provides a getClickRef function to return the clickRef retreived after `beginConversion` is called.
+
+```java
+    Partnerize partnerize = new Partnerize(getApplicationContext());
+    partnerize.getClickRef(); // -> xxxxxxxxxxxx
 ```
 
 #### Sending to Partnerize
@@ -224,6 +254,13 @@ editor.apply();
 editor.commit();
 ```
 
+`Partnerize` also provides a getClickRef function to return the clickRef retreived after `beginConversion` is called.
+
+```java
+    Partnerize partnerize = new Partnerize(getApplicationContext());
+    partnerize.getClickRef(); // -> xxxxxxxxxxxx
+```
+
 ### `ConversionItem` class
 
 The `ConversionItem` class is a representation of an item within a Conversion to better represent a shopping basket.
@@ -232,12 +269,12 @@ A `ConversionItem` requires a `value` and `category` for each item however addit
 
 Using the following example shopping basket;
 
-|Name   | Quantity   | Price   | SKU |
-|---|---|---|---|
-| Plain T-Shirt   | 3  |9.99   | TSH-PLN-MED |
-| Coloured Vest  | 2  | 5.00  | VES-COL-SMA |
-| Sports Trainers  | 1  | 19.99  | TRA-SPT-FIV |
-| Coat  | 1  | 52.49  | COA-TAN-LRG |
+| Name            | Quantity | Price | SKU         |
+| --------------- | -------- | ----- | ----------- |
+| Plain T-Shirt   | 3        | 9.99  | TSH-PLN-MED |
+| Coloured Vest   | 2        | 5.00  | VES-COL-SMA |
+| Sports Trainers | 1        | 19.99 | TRA-SPT-FIV |
+| Coat            | 1        | 52.49 | COA-TAN-LRG |
 
 It could be represented by the below conversion items:
 
@@ -296,4 +333,5 @@ conversion = conversion.buildUpon()
 ```
 
 ## License
+
 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
