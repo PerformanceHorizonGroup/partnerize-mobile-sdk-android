@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-package com.partnerize.tracking;
+package com.partnerize.tracking.Conversions;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
+
+import com.partnerize.tracking.Conversion;
+import com.partnerize.tracking.ConversionItem;
 
 import org.junit.Test;
 
@@ -42,6 +45,21 @@ public class ConversionInstrumentedTest {
                 .build());
 
         Conversion conversion = new Conversion(intent);
+
+        assertEquals(clickReference, conversion.getClickRef());
+    }
+
+    @Test
+    public void testIntentAndClickRef() {
+        String clickReference = "click_reference";
+
+        Intent intent = new Intent();
+        intent.setData(new Uri.Builder()
+                .scheme("https")
+                .authority("example.com")
+                .build());
+
+        Conversion conversion = new Conversion(intent, clickReference);
 
         assertEquals(clickReference, conversion.getClickRef());
     }

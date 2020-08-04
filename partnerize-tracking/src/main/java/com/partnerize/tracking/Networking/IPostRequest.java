@@ -1,8 +1,8 @@
-package com.partnerize.tracking;
+package com.partnerize.tracking.Networking;
 
 /**
  * Interface to a network request.
  */
-public interface IRequest {
+public interface IPostRequest {
     void send(String body, CompletableRequest completableRequest);
 }

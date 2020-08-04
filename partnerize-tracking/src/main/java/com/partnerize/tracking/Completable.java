@@ -1,4 +1,4 @@
-package com.partnerize.tracking.Fingerprint;
+package com.partnerize.tracking;
 
 public interface Completable {
     void complete();
