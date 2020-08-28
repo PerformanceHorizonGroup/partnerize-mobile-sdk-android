@@ -40,8 +40,6 @@ android {
         versionName project.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        addConstant("FINGERPRINT_API_URL", "http://development.example.com/api/v1/")
     }
 
     buildTypes {

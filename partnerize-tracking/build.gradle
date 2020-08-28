@@ -19,15 +19,9 @@ android {
             target.buildConfigField "String", "${constantName}", "\"${constantValue}\""
         }
 
-        debug {
-            addConstantTo(owner, "FINGERPRINT_API_URL", "https://development.example.com/api/v1/")
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            addConstantTo(owner, "FINGERPRINT_API_URL", "https://production.example.com/api/v1/")
         }
     }
 
