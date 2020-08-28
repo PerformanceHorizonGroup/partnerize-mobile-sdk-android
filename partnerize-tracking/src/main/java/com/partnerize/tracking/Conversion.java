@@ -58,6 +58,11 @@ public class Conversion implements Parcelable {
     private final HashMap<String, String> mMetadata = new HashMap<>();
     private final ConversionItem[] mConversionItems;
 
+    /**
+     * @deprecated Conversion(Intent) constructor has been deprecated and may not function as expected on Android API 25 or higher.
+     * Please use Conversion(Intent, clickRef) instead in combination with Partnerize.beginConversion(Uri, CompletableClick).
+     */
+    @Deprecated()
     public Conversion(Intent intent) {
         String clickRef = "";
         Uri uri = intent.getData();
@@ -65,6 +70,21 @@ public class Conversion implements Parcelable {
         if (uri != null) {
             clickRef = uri.getQueryParameter(CLICK_REF);
         }
+
+        mClickRef = clickRef;
+        mConversionRef = null;
+        mPublisherRef = null;
+        mAdvertiserRef = null;
+        mCustomerRef = null;
+        mCurrency = null;
+        mCountry = null;
+        mVoucher = null;
+        mConversionItems = new ConversionItem[0];
+    }
+
+
+    public Conversion(Intent intent, String clickRef) {
+        Uri uri = intent.getData();
 
         mClickRef = clickRef;
         mConversionRef = null;

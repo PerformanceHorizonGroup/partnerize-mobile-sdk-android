@@ -15,14 +15,14 @@
  */
 
 project.ext {
-    gradleVersion = "3.4.0"
+    gradleVersion = "3.5.3"
 
     compileSdkVersion = 28
     minSdkVersion = 15
     targetSdkVersion = 28
 
-    versionCode = 1
-    versionName = "1.0"
+    versionCode = 2
+    versionName = "1.1"
 
     bintrayRepo = 'android'
     bintrayName = 'tracking'
@@ -37,7 +37,7 @@ project.ext {
     siteUrl = 'https://github.com/PerformanceHorizonGroup/partnerize-mobile-sdk-android'
     gitUrl = 'https://github.com/PerformanceHorizonGroup/partnerize-mobile-sdk-android.git'
 
-    libraryVersion = '1.0'
+    libraryVersion = '1.1'
 
     developerId = 'performancehorizongroup'
     developerName = 'Performance Horizon Group'
