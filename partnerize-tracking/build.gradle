@@ -10,14 +10,23 @@ android {
         versionCode project.ext.versionCode
         versionName project.ext.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        def addConstantTo = {target, constantName, constantValue ->
+            target.manifestPlaceholders += [ (constantName):constantValue]
+            target.buildConfigField "String", "${constantName}", "\"${constantValue}\""
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dependencies {
+        implementation 'com.android.installreferrer:installreferrer:1.1.1'
     }
 
 }
