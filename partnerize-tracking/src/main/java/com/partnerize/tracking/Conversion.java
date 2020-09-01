@@ -47,7 +47,7 @@ public class Conversion implements Parcelable {
         }
     };
 
-    private final String mClickRef;
+    private String mClickRef;
     private final String mConversionRef;
     private final String mPublisherRef;
     private final String mAdvertiserRef;
@@ -192,6 +192,16 @@ public class Conversion implements Parcelable {
     public Url toUrl() {
         return new Url.Builder(this)
                 .build();
+    }
+
+    /**
+     * Clear a clickref from a conversion by setting a blank string.
+     *
+     * @return conversion
+     */
+    public Conversion clearClickref() {
+        mClickRef = "";
+        return this;
     }
 
     /**

@@ -75,4 +75,13 @@ public class ClickHelperTest {
 
         assertFalse(result);
     }
+
+    @Test
+    public void testIsClickRequestWithClickrefUri() {
+        final Uri uri = Uri.parse(TestClickConsts.completedUri);
+
+        final boolean result = ClickHelper.isClickRequest(uri);
+
+        assertFalse(result);
+    }
 }
