@@ -179,4 +179,22 @@ public class ConversionInstrumentedTest {
                 .toString();
         assertEquals(stringBuilder.toString(), url10);
     }
+
+    @Test
+    public void testConversionUrlWithClearedClickref() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("https://prf.hn/conversion/tracking_mode:api/device:mobile/context:m_app/app_sdk:true/app_os_device:android/app_os_device_version:");
+        stringBuilder.append(Build.VERSION.RELEASE);
+
+        stringBuilder.append("/clickref:");
+
+        Conversion.Builder builder =  new Conversion.Builder("click_reference");
+        Conversion conversion = builder.build();
+
+        conversion.clearClickref();
+
+        String url = conversion.toString();
+
+        assertEquals(stringBuilder.toString(), url);
+    }
 }

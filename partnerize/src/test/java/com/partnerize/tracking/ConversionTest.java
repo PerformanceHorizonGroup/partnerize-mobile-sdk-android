@@ -138,4 +138,26 @@ public class ConversionTest {
         assertEquals("sandbox", url5.getBasePath());
         assertEquals(conversion2.getClickRef(), url5.getConversion().getClickRef());
     }
+
+    @Test
+    public void testClearClickref() {
+        Conversion.Builder builder = new Conversion.Builder("click_reference");
+        builder.setConversionRef("conversion_reference");
+        builder.setAdvertiserRef("advertiser_reference");
+        builder.setPublisherRef("publisher_reference");
+        builder.setCustomerRef("customer_reference");
+        builder.setCountry("GB");
+        builder.setCurrency("GBP");
+        builder.setVoucher("voucher");
+        builder.addMetadata("metadata1", "value1");
+        builder.addMetadata("metadata2", "value2");
+        builder.addConversionItem(new ConversionItem.Builder("19.99", "Shoes").build());
+        builder.addConversionItem(new ConversionItem.Builder("52.99", "Clothes").build());
+
+        Conversion conversion = builder.build();
+
+        conversion.clearClickref();
+
+        assertEquals("", conversion.getClickRef());
+    }
 }
