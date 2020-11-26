@@ -89,7 +89,7 @@ public class ConversionInstrumentedTest {
                 .toString();
         assertEquals(stringBuilder.toString(), url1);
 
-        stringBuilder.append("/conversion_reference:conversion_ref");
+        stringBuilder.append("/conversionref:conversion_ref");
         String url2 = new Conversion.Builder("click_reference")
                 .setConversionRef("conversion_ref")
                 .toString();
