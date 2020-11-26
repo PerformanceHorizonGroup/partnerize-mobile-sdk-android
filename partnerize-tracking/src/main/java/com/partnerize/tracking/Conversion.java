@@ -333,7 +333,7 @@ public class Conversion implements Parcelable {
         private static final String ENCODING = "UTF-8";
         private static final String SEPARATOR = ":";
         private static final String CLICK_REF = "clickref";
-        private static final String CONVERSION_REF = "conversion_reference";
+        private static final String CONVERSION_REF = "conversionref";
         private static final String PUBLISHER_REF = "publisher_reference";
         private static final String ADVERTISER_REF = "advertiser_reference";
         private static final String CUSTOMER_REFERENCE = "customer_reference";
