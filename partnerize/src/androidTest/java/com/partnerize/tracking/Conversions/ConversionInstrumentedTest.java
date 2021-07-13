@@ -21,12 +21,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
 
+import com.partnerize.tracking.BuildConfig;
 import com.partnerize.tracking.Conversion;
 import com.partnerize.tracking.ConversionItem;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Describes instrumented tests for conversions
@@ -185,7 +187,7 @@ public class ConversionInstrumentedTest {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("https://prf.hn/conversion/tracking_mode:api/device:mobile/context:m_app/app_sdk:true/app_os_device:android/app_os_device_version:");
         stringBuilder.append(Build.VERSION.RELEASE);
-
+        stringBuilder.append("/app_sdk_version:" + BuildConfig.VERSION_NAME);
         stringBuilder.append("/clickref:");
 
         Conversion.Builder builder =  new Conversion.Builder("click_reference");
@@ -197,4 +199,14 @@ public class ConversionInstrumentedTest {
 
         assertEquals(stringBuilder.toString(), url);
     }
+
+    @Test
+    public void shouldHaveAUrl() {
+        Conversion.Url conversion = new Conversion.Builder("click_ref").build().toUrl();
+        String url = conversion.toString();
+
+
+        assertTrue(url.contains("app_sdk_version:1.3"));
+    }
+
 }

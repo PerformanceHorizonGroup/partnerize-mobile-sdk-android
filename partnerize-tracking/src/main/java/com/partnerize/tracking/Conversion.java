@@ -389,7 +389,7 @@ public class Conversion implements Parcelable {
             builder.appendEncodedPath("app_sdk:true");
             builder.appendEncodedPath("app_os_device:android");
             builder.appendEncodedPath("app_os_device_version:" + Build.VERSION.RELEASE);
-
+            builder.appendEncodedPath("app_sdk_version:" + BuildConfig.VERSION_NAME);
             return toStringInner(builder);
         }
 
