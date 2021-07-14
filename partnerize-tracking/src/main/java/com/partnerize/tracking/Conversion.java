@@ -55,6 +55,8 @@ public class Conversion implements Parcelable {
     private final String mCurrency;
     private final String mCountry;
     private final String mVoucher;
+    private final String mTrafficSource;
+
     private final HashMap<String, String> mMetadata = new HashMap<>();
     private final ConversionItem[] mConversionItems;
 
@@ -79,6 +81,7 @@ public class Conversion implements Parcelable {
         mCurrency = null;
         mCountry = null;
         mVoucher = null;
+        mTrafficSource = null;
         mConversionItems = new ConversionItem[0];
     }
 
@@ -94,6 +97,7 @@ public class Conversion implements Parcelable {
         mCurrency = null;
         mCountry = null;
         mVoucher = null;
+        mTrafficSource = null;
         mConversionItems = new ConversionItem[0];
     }
 
@@ -106,6 +110,7 @@ public class Conversion implements Parcelable {
         mCurrency = builder.mCurrency;
         mCountry = builder.mCountry;
         mVoucher = builder.mVoucher;
+        mTrafficSource = builder.mTrafficSource;
 
         for (String key: builder.mMetadata.keySet()) {
             mMetadata.put(key, builder.mMetadata.get(key));
@@ -125,6 +130,7 @@ public class Conversion implements Parcelable {
         mCurrency = in.readString();
         mCountry = in.readString();
         mVoucher = in.readString();
+        mTrafficSource = in.readString();
 
         int count = in.readInt();
         for (int i = 0; i < count; i++) {
@@ -150,6 +156,8 @@ public class Conversion implements Parcelable {
 
     public String getVoucher() { return mVoucher; }
 
+    String getTrafficSource() { return  mTrafficSource; }
+
     public HashMap<String, String> getMetadata() { return mMetadata; }
 
     public ConversionItem[] getConversionItems() { return mConversionItems; }
@@ -169,6 +177,7 @@ public class Conversion implements Parcelable {
         dest.writeString(mCurrency);
         dest.writeString(mCountry);
         dest.writeString(mVoucher);
+        dest.writeString(mTrafficSource);
 
         dest.writeInt(mMetadata.size());
         for (String key: mMetadata.keySet()) {
@@ -218,6 +227,7 @@ public class Conversion implements Parcelable {
                 .setCurrency(mCurrency)
                 .setCountry(mCountry)
                 .setVoucher(mVoucher)
+                .setTrafficSource(mTrafficSource)
                 .setMetadata(mMetadata)
                 .setConversionItems(mConversionItems);
     }
@@ -235,6 +245,8 @@ public class Conversion implements Parcelable {
         private String mCurrency;
         private String mCountry;
         private String mVoucher;
+        private String mTrafficSource;
+
         private HashMap<String, String> mMetadata = new HashMap<>();
         private ArrayList<ConversionItem> mConversionItems = new ArrayList<>();
 
@@ -279,6 +291,11 @@ public class Conversion implements Parcelable {
 
         public Builder setVoucher(String voucher) {
             mVoucher = voucher;
+            return this;
+        }
+
+        public Builder setTrafficSource(String trafficSource) {
+            mTrafficSource = trafficSource;
             return this;
         }
 
@@ -340,6 +357,7 @@ public class Conversion implements Parcelable {
         private static final String CURRENCY = "currency";
         private static final String COUNTRY = "country";
         private static final String VOUCHER = "voucher";
+        private static final String TRAFFIC_SOURCE = "tsource";
         private static final String VALUE = "value";
         private static final String CATEGORY = "category";
         private static final String QUANTITY = "quantity";
@@ -430,6 +448,10 @@ public class Conversion implements Parcelable {
             // Voucher
             if (mConversion.mVoucher != null) {
                 builder.appendEncodedPath(VOUCHER + SEPARATOR + encode(mConversion.mVoucher));
+            }
+
+            if (mConversion.mTrafficSource != null) {
+                builder.appendEncodedPath(TRAFFIC_SOURCE + SEPARATOR + encode(mConversion.mTrafficSource));
             }
 
             // Conversion Metadata

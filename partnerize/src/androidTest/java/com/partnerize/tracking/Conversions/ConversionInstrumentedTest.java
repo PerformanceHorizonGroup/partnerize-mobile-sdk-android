@@ -24,6 +24,7 @@ import android.os.Parcel;
 import com.partnerize.tracking.BuildConfig;
 import com.partnerize.tracking.Conversion;
 import com.partnerize.tracking.ConversionItem;
+import com.partnerize.tracking.TrafficSource;
 
 import org.junit.Test;
 
@@ -190,7 +191,7 @@ public class ConversionInstrumentedTest {
         stringBuilder.append("/app_sdk_version:" + BuildConfig.VERSION_NAME);
         stringBuilder.append("/clickref:");
 
-        Conversion.Builder builder =  new Conversion.Builder("click_reference");
+        Conversion.Builder builder = new Conversion.Builder("click_reference");
         Conversion conversion = builder.build();
 
         conversion.clearClickref();
@@ -201,12 +202,18 @@ public class ConversionInstrumentedTest {
     }
 
     @Test
-    public void shouldHaveAUrl() {
-        Conversion.Url conversion = new Conversion.Builder("click_ref").build().toUrl();
-        String url = conversion.toString();
+    public void shouldHaveAUrlWithTheVersionNumber() {
+        String url = new Conversion.Builder("click_ref").build().toUrl().toString();
 
+        assertTrue(url.contains("app_sdk_version:" + BuildConfig.VERSION_NAME));
+    }
 
-        assertTrue(url.contains("app_sdk_version:1.3"));
+    @Test
+    public void shouldHaveAUrlWithTrafficSource() {
+        String url = new Conversion.Builder("click_ref").setTrafficSource(TrafficSource.PARTNER)
+                .build().toUrl().toString();
+
+        assertTrue(url.contains("tsource:Partner"));
     }
 
 }
