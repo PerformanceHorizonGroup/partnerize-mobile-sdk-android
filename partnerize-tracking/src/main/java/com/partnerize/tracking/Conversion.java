@@ -156,7 +156,7 @@ public class Conversion implements Parcelable {
 
     public String getVoucher() { return mVoucher; }
 
-    String getTrafficSource() { return  mTrafficSource; }
+    public String getTrafficSource() { return  mTrafficSource; }
 
     public HashMap<String, String> getMetadata() { return mMetadata; }
 

@@ -51,7 +51,7 @@ Conversion conversion = new Conversion.Builder("My_Click_Reference")
         .setCurrency("USD")
         .setCountry("US")
         .setVoucher("25OFF")
-
+        .setTrafficSource(TrafficSource.PARTNER)
         // Conversion Metadata
         .addMetadata("payment_type", "crypto_currency")
 
@@ -64,6 +64,10 @@ Conversion conversion = new Conversion.Builder("My_Click_Reference")
                 .build())
         .build();
 ```
+
+### `TrafficSource` class
+
+Predefined Constants such as `TrafficSource.Partner` are available to use.
 
 #### Retrieving and extending conversions
 
@@ -78,6 +82,7 @@ String customerRef = conversion.getCustomerRef();
 String currency = conversion.getCurrency();
 String country = conversion.getCountry();
 String voucher = conversion.getVoucher();
+String trafficSource = conversion.getTrafficSource();
 
 // Payment type metadata
 String paymentType = conversion.getMetadata().get("payment_type");
