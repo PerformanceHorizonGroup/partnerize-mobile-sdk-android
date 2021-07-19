@@ -20,12 +20,14 @@ class ConversionUrlBuilder {
     private static final String COUNTRY = "country";
     private static final String VOUCHER = "voucher";
     private static final String TRAFFIC_SOURCE = "tsource";
+    private static final String CUSTOMER_TYPE = "customertype";
     private static final String VALUE = "value";
     private static final String CATEGORY = "category";
     private static final String QUANTITY = "quantity";
     private static final String SKU = "sku";
     private static final String START_BRACKET = "[";
     private static final String END_BRACKET = "]";
+
 
     String toStringInner(Uri.Builder builder, Conversion conversion) {
         // Adoption analytics.
@@ -73,6 +75,10 @@ class ConversionUrlBuilder {
 
         if (conversion.getTrafficSource() != null) {
             builder.appendEncodedPath(TRAFFIC_SOURCE + SEPARATOR + encode(conversion.getTrafficSource()));
+        }
+
+        if (conversion.getCustomerType() != null) {
+            builder.appendEncodedPath(CUSTOMER_TYPE + SEPARATOR + encode(conversion.getCustomerType().name().toLowerCase()));
         }
 
         // Conversion Metadata

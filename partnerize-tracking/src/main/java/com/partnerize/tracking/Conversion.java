@@ -56,6 +56,7 @@ public class Conversion implements Parcelable {
     private final String mCountry;
     private final String mVoucher;
     private final String mTrafficSource;
+    private final CustomerType mCustomerType;
 
     private final HashMap<String, String> mMetadata = new HashMap<>();
     private final ConversionItem[] mConversionItems;
@@ -82,6 +83,7 @@ public class Conversion implements Parcelable {
         mCountry = null;
         mVoucher = null;
         mTrafficSource = null;
+        mCustomerType = null;
         mConversionItems = new ConversionItem[0];
     }
 
@@ -98,6 +100,7 @@ public class Conversion implements Parcelable {
         mCountry = null;
         mVoucher = null;
         mTrafficSource = null;
+        mCustomerType = null;
         mConversionItems = new ConversionItem[0];
     }
 
@@ -111,6 +114,7 @@ public class Conversion implements Parcelable {
         mCountry = builder.mCountry;
         mVoucher = builder.mVoucher;
         mTrafficSource = builder.mTrafficSource;
+        mCustomerType = builder.mCustomerType;
 
         for (String key: builder.mMetadata.keySet()) {
             mMetadata.put(key, builder.mMetadata.get(key));
@@ -131,6 +135,9 @@ public class Conversion implements Parcelable {
         mCountry = in.readString();
         mVoucher = in.readString();
         mTrafficSource = in.readString();
+
+        String customerType = in.readString();
+        mCustomerType = !customerType.isEmpty() ? CustomerType.valueOf(customerType) : null;
 
         int count = in.readInt();
         for (int i = 0; i < count; i++) {
@@ -156,7 +163,9 @@ public class Conversion implements Parcelable {
 
     public String getVoucher() { return mVoucher; }
 
-    public String getTrafficSource() { return  mTrafficSource; }
+    public String getTrafficSource() { return mTrafficSource; }
+
+    public CustomerType getCustomerType() { return mCustomerType; }
 
     public HashMap<String, String> getMetadata() { return mMetadata; }
 
@@ -178,7 +187,9 @@ public class Conversion implements Parcelable {
         dest.writeString(mCountry);
         dest.writeString(mVoucher);
         dest.writeString(mTrafficSource);
-
+        if (mCustomerType != null) {
+            dest.writeString(mCustomerType.name());
+        }
         dest.writeInt(mMetadata.size());
         for (String key: mMetadata.keySet()) {
             dest.writeString(key);
@@ -228,6 +239,7 @@ public class Conversion implements Parcelable {
                 .setCountry(mCountry)
                 .setVoucher(mVoucher)
                 .setTrafficSource(mTrafficSource)
+                .setCustomerType(mCustomerType)
                 .setMetadata(mMetadata)
                 .setConversionItems(mConversionItems);
     }
@@ -246,6 +258,7 @@ public class Conversion implements Parcelable {
         private String mCountry;
         private String mVoucher;
         private String mTrafficSource;
+        private CustomerType mCustomerType;
 
         private HashMap<String, String> mMetadata = new HashMap<>();
         private ArrayList<ConversionItem> mConversionItems = new ArrayList<>();
@@ -299,6 +312,11 @@ public class Conversion implements Parcelable {
             return this;
         }
 
+        public Builder setCustomerType(CustomerType customerType) {
+            mCustomerType = customerType;
+            return this;
+        }
+
         public Builder setMetadata(HashMap<String, String> metadata) {
             mMetadata = metadata;
             return this;
@@ -346,8 +364,6 @@ public class Conversion implements Parcelable {
      * Describes an attributes within a conversion's URL.
      */
     public static class Url {
-
-
 
         private String mScheme;
         private String mAuthority;

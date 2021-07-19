@@ -24,6 +24,7 @@ import android.os.Parcel;
 import com.partnerize.tracking.BuildConfig;
 import com.partnerize.tracking.Conversion;
 import com.partnerize.tracking.ConversionItem;
+import com.partnerize.tracking.CustomerType;
 import com.partnerize.tracking.TrafficSource;
 
 import org.junit.Test;
@@ -214,6 +215,14 @@ public class ConversionInstrumentedTest {
                 .build().toUrl().toString();
 
         assertTrue(url.contains("tsource:Partner"));
+    }
+
+    @Test
+    public void shouldHaveAUrlWithTrafficSoaurce() {
+        String url = new Conversion.Builder("click_ref").setCustomerType(CustomerType.EXISTING)
+                .build().toUrl().toString();
+
+        assertTrue(url.contains("customertype:existing"));
     }
 
 }
