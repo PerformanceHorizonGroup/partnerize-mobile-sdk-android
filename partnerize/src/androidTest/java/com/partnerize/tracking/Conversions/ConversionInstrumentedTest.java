@@ -86,7 +86,7 @@ public class ConversionInstrumentedTest {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("https://prf.hn/conversion/tracking_mode:api/device:mobile/context:m_app/app_sdk:true/app_os_device:android/app_os_device_version:");
         stringBuilder.append(Build.VERSION.RELEASE);
-
+        stringBuilder.append("/app_sdk_version:" + BuildConfig.VERSION_NAME);
         stringBuilder.append("/clickref:click_reference");
         String url1 = new Conversion.Builder("click_reference")
                 .toString();
