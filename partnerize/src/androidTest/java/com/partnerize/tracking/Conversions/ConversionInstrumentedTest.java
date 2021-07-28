@@ -218,11 +218,19 @@ public class ConversionInstrumentedTest {
     }
 
     @Test
-    public void shouldHaveAUrlWithTrafficSoaurce() {
+    public void shouldHaveAUrlWithCustomerType() {
         String url = new Conversion.Builder("click_ref").setCustomerType(CustomerType.EXISTING)
                 .build().toUrl().toString();
 
         assertTrue(url.contains("customertype:existing"));
+    }
+
+    @Test
+    public void shouldHaveAUrlWithConversionMetric() {
+        String url = new Conversion.Builder("click_ref").setConversionMetric("metric")
+                .build().toUrl().toString();
+
+        assertTrue(url.contains("tmetric:metric"));
     }
 
 }

@@ -20,6 +20,7 @@ class ConversionUrlBuilder {
     private static final String COUNTRY = "country";
     private static final String VOUCHER = "voucher";
     private static final String TRAFFIC_SOURCE = "tsource";
+    private static final String CONVERSION_METRIC = "tmetric";
     private static final String CUSTOMER_TYPE = "customertype";
     private static final String VALUE = "value";
     private static final String CATEGORY = "category";
@@ -79,6 +80,10 @@ class ConversionUrlBuilder {
 
         if (conversion.getCustomerType() != null) {
             builder.appendEncodedPath(CUSTOMER_TYPE + SEPARATOR + encode(conversion.getCustomerType().name().toLowerCase()));
+        }
+
+        if (conversion.getConversionMetric() != null) {
+            builder.appendEncodedPath(CONVERSION_METRIC + SEPARATOR + encode(conversion.getConversionMetric()));
         }
 
         // Conversion Metadata

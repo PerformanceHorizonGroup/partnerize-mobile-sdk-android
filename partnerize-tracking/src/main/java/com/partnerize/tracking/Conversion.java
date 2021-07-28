@@ -57,6 +57,7 @@ public class Conversion implements Parcelable {
     private final String mVoucher;
     private final String mTrafficSource;
     private final CustomerType mCustomerType;
+    private final String mConversionMetric;
 
     private final HashMap<String, String> mMetadata = new HashMap<>();
     private final ConversionItem[] mConversionItems;
@@ -84,6 +85,7 @@ public class Conversion implements Parcelable {
         mVoucher = null;
         mTrafficSource = null;
         mCustomerType = null;
+        mConversionMetric = null;
         mConversionItems = new ConversionItem[0];
     }
 
@@ -101,6 +103,7 @@ public class Conversion implements Parcelable {
         mVoucher = null;
         mTrafficSource = null;
         mCustomerType = null;
+        mConversionMetric = null;
         mConversionItems = new ConversionItem[0];
     }
 
@@ -115,6 +118,7 @@ public class Conversion implements Parcelable {
         mVoucher = builder.mVoucher;
         mTrafficSource = builder.mTrafficSource;
         mCustomerType = builder.mCustomerType;
+        mConversionMetric = builder.mConversionMetric;
 
         for (String key: builder.mMetadata.keySet()) {
             mMetadata.put(key, builder.mMetadata.get(key));
@@ -135,6 +139,7 @@ public class Conversion implements Parcelable {
         mCountry = in.readString();
         mVoucher = in.readString();
         mTrafficSource = in.readString();
+        mConversionMetric = in.readString();
 
         String customerType = in.readString();
         mCustomerType = !customerType.isEmpty() ? CustomerType.valueOf(customerType) : null;
@@ -167,6 +172,8 @@ public class Conversion implements Parcelable {
 
     public CustomerType getCustomerType() { return mCustomerType; }
 
+    public String getConversionMetric() { return mConversionMetric; }
+
     public HashMap<String, String> getMetadata() { return mMetadata; }
 
     public ConversionItem[] getConversionItems() { return mConversionItems; }
@@ -190,6 +197,7 @@ public class Conversion implements Parcelable {
         if (mCustomerType != null) {
             dest.writeString(mCustomerType.name());
         }
+        dest.writeString(mConversionMetric);
         dest.writeInt(mMetadata.size());
         for (String key: mMetadata.keySet()) {
             dest.writeString(key);
@@ -240,6 +248,7 @@ public class Conversion implements Parcelable {
                 .setVoucher(mVoucher)
                 .setTrafficSource(mTrafficSource)
                 .setCustomerType(mCustomerType)
+                .setConversionMetric(mConversionMetric)
                 .setMetadata(mMetadata)
                 .setConversionItems(mConversionItems);
     }
@@ -259,6 +268,7 @@ public class Conversion implements Parcelable {
         private String mVoucher;
         private String mTrafficSource;
         private CustomerType mCustomerType;
+        private String mConversionMetric;
 
         private HashMap<String, String> mMetadata = new HashMap<>();
         private ArrayList<ConversionItem> mConversionItems = new ArrayList<>();
@@ -314,6 +324,11 @@ public class Conversion implements Parcelable {
 
         public Builder setCustomerType(CustomerType customerType) {
             mCustomerType = customerType;
+            return this;
+        }
+
+        public Builder setConversionMetric(String conversionMetric) {
+            mConversionMetric = conversionMetric;
             return this;
         }
 
