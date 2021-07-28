@@ -52,6 +52,8 @@ Conversion conversion = new Conversion.Builder("My_Click_Reference")
         .setCountry("US")
         .setVoucher("25OFF")
         .setTrafficSource(TrafficSource.PARTNER)
+        .setCustomerType(CustomerType.EXISTING)
+        .setConversionMetric(ConversionMetric.STANDARD)
         // Conversion Metadata
         .addMetadata("payment_type", "crypto_currency")
 
