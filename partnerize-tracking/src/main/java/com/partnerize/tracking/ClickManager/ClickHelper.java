@@ -92,6 +92,7 @@ public class ClickHelper {
             return false;
         }
 
-        return segments.get(0).equals(CLICK_URI_COMPONENT);
+        String clickComponent = segments.get(0);
+        return clickComponent.equals(CLICK_URI_COMPONENT) || clickComponent.equals(SHORTENED_CLICK_URI_COMPONENT);
     }
 }
