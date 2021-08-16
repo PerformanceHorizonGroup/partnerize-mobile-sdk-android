@@ -165,7 +165,8 @@ Conversion conversion = new Conversion.Builder("My_Click_Reference")
 
 ### TrafficSource
 
-The `TrafficSource` constants such as `TrafficSource.PARTNER` are for use for setting the traffic source on a conversion.
+The `TrafficSource` constants such as `TrafficSource.PARTNER` are for used for setting the traffic source on a conversion.
+Raw strings can also be used however, the Partnerize platform only accepts a predefined list of traffic sources.
 
 
 ### CustomerType
@@ -174,7 +175,7 @@ This enum can either be `CustomerType.EXISTING` or `CustomerType.NEW`, and is us
 
 ### ConversionMetric
 
-The `ConversionMetric` constants such as `ConversionMetric.STANDARD` are for use for setting the conversion metric on a conversion.
+The `ConversionMetric` constants such as `ConversionMetric.STANDARD` are for used for setting the conversion metric on a conversion.
 
 
 ### Retrieving and extending conversions
@@ -354,4 +355,4 @@ String url = builder.toString();
 
 # Release Notes
 
-Release notes can be found [here](https://github.com/PerformanceHorizonGroup/partnerize-mobile-sdk-android/tags) 
+Release notes can be found [here](https://github.com/PerformanceHorizonGroup/partnerize-mobile-sdk-android/releases)
