@@ -14,6 +14,8 @@ stages:
   - test
 
 before_script:
+  - export ANDROID_HOME=$HOME/Library/Android/sdk
+  - export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
   - export GRADLE_USER_HOME=$(pwd)/.gradle
   - chmod +x ./gradlew
   - apt-get update -y && apt-get install wget -y
