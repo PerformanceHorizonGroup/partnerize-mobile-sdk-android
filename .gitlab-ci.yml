@@ -1,4 +1,3 @@
-image: jangrewe/gitlab-ci-android
 
 variables:
   ANDROID_COMPILE_SDK: "28"
