@@ -5,7 +5,6 @@ variables:
 cache:
   key: ${CI_PROJECT_ID}
   paths:
-    - .m2/
     - .gradle/
 
 stages:
@@ -19,7 +18,6 @@ before_script:
   - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
   - export GRADLE_USER_HOME=$(pwd)/.gradle
   - chmod +x ./gradlew
-  - apt-get update -y && apt-get install wget -y
 
 .build_template: &build
   stage: build
@@ -43,12 +41,12 @@ build:release:
 .test_template: &test
   stage: test
 
-test:unit:
+unit:
   <<: *test
   script:
     - ./gradlew test
 
-test:instrumented:
+instrumented:
   <<: *test
   script:
     - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
@@ -65,8 +63,10 @@ test:instrumented:
 lint:
   stage: lint
   script:
+    - pwd
     - ./gradlew lint
   artifacts:
     expire_in: 4 days
     paths:
-      - app/build/reports/
+      - ./partnerize-tracking/build/reports
+      - ./partnerize/build/reports
