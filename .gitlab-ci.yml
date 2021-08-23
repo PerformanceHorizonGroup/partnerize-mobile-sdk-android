@@ -24,7 +24,7 @@ before_script:
   artifacts:
     expire_in: 4 hours
     paths:
-      - app/build/outputs/
+      - ./partnerize/build/outputs/
 
 build:debug:
   <<: *build
@@ -63,7 +63,6 @@ instrumented:
 lint:
   stage: lint
   script:
-    - pwd
     - ./gradlew lint
   artifacts:
     expire_in: 4 days
