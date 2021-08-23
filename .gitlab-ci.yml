@@ -58,4 +58,4 @@ test:instrumented:
     - ${ANDROID_HOME}/emulator/emulator -avd test -no-window -no-audio -no-boot-anim &
     - ./android-wait-for-emulator
     - adb shell input keyevent 82
-    - ./gradlew cAT
+    - ./gradlew cAT --info --debug
