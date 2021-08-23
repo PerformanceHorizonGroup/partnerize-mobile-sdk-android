@@ -159,6 +159,5 @@ public class ConversionTest {
         conversion.clearClickref();
 
         assertEquals("", conversion.getClickRef());
-        assertEquals(1, 2);
     }
 }
