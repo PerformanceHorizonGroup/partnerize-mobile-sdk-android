@@ -11,6 +11,7 @@ cache:
 stages:
   - build
   - test
+  - lint
 
 before_script:
   - export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -60,3 +61,12 @@ test:instrumented:
     - adb shell input keyevent 82
     - ./gradlew cAT
     - adb -s emulator-5554 emu kill
+
+lint:
+  stage: lint
+  script:
+    - ./gradlew lint
+  artifacts:
+    expire_in: 4 days
+    paths:
+      - app/build/reports/
