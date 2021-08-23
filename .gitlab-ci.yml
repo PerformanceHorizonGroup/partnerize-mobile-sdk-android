@@ -27,7 +27,7 @@ before_script:
     paths:
       - app/build/outputs/
 
-build:develop:
+build:debug:
   <<: *build
   script:
     - ./gradlew assembleDebug
@@ -55,7 +55,7 @@ test:instrumented:
     - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86"
     - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager --update
     - echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -k "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86" -n test --force
-    - ${ANDROID_HOME}/emulator/emulator -avd test -no-window -no-audio -no-boot-anim &
+    - ${ANDROID_HOME}/emulator/emulator -avd test -no-audio -no-boot-anim &
     - ./android-wait-for-emulator
     - adb shell input keyevent 82
-    - ./gradlew cAT --info --debug
+    - ./gradlew cAT
