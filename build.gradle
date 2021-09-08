@@ -19,7 +19,6 @@ plugins {
     id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
 }
 
-apply from: "${rootDir}/publish-root.gradle"
 
 allprojects {
     repositories {
@@ -30,14 +29,4 @@ allprojects {
     project.apply from: "${rootDir}/constants.gradle"
 }
 
-nexusPublishing {
-    repositories {
-        sonatype {
-            stagingProfileId = sonatypeStagingProfileId
-            username = ossrhUsername
-            password = ossrhPassword
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-        }
-    }
-}
+apply from: "${rootDir}/publish-root.gradle"

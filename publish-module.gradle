@@ -32,7 +32,7 @@ afterEvaluate {
                 }
 
                 artifact androidSourcesJar
-                artifact javadocJar
+//                artifact javadocJar
 
                 pom {
                     name = PUBLISH_ARTIFACT_ID
@@ -46,7 +46,7 @@ afterEvaluate {
                     }
                     developers {
                         developer {
-                            id = 'partnerizeJosh'
+                            id = 'PartnerizeJosh'
                             name = 'Joshua Greenwood'
                             email = 'joshua.greenwood@partnerize.com'
                         }
