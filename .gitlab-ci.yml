@@ -11,6 +11,7 @@ stages:
   - build
   - test
   - lint
+  - release
 
 before_script:
   - export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -69,3 +70,12 @@ lint:
     paths:
       - ./partnerize-tracking/build/reports
       - ./partnerize/build/reports
+
+
+release:
+  stage: release
+  when: manual
+  script:
+    - VERSION=`sed -n '/versionName/p' < constants.gradle | tr -dc '0-9.'`
+    - echo "Releasing Version:" $VERSION
+    - ./gradlew partnerize-tracking:publishReleasePublicationToSonatypeRepository

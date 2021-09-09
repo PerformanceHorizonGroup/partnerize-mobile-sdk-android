@@ -22,7 +22,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId PUBLISH_GROUP_ID
                 artifactId PUBLISH_ARTIFACT_ID
-                version PUBLISH_VERSION
+                version versionName
 
                 // Two artifacts, the `aar` (or `jar`) and the sources
                 if (project.plugins.findPlugin("com.android.library")) {
@@ -32,7 +32,6 @@ afterEvaluate {
                 }
 
                 artifact androidSourcesJar
-//                artifact javadocJar
 
                 pom {
                     name = PUBLISH_ARTIFACT_ID
