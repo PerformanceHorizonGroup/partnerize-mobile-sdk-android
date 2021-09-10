@@ -21,6 +21,13 @@ if (secretPropsFile.exists()) {
     ext["signing.password"] = System.getenv('SIGNING_PASSWORD')
     ext["signing.key"] = System.getenv('SIGNING_KEY')
 }
+println "LOGGING VARS"
+println ext["ossrhUsername"]
+println ext["ossrhPassword"]
+println ext["sonatypeStagingProfileId"]
+println ext["signing.keyId"]
+println ext["signing.password"]
+println ext["signing.key"]
 
 nexusPublishing {
     repositories {
