@@ -86,7 +86,8 @@ release:
 #    - git push origin --tags
     # PUSH TO PUBLIC REPO
     - git checkout master
-#    - git remote add github git@github.com:PerformanceHorizonGroup/partnerize-mobile-sdk-android.git
+    - git remote remove github
+    - git remote add github git@github.com:PerformanceHorizonGroup/partnerize-mobile-sdk-android.git
     - git push github
     - gh release create v$VERSION -t $VERSION
     # PUSH TO MAVEN
