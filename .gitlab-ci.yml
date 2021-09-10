@@ -82,6 +82,7 @@ release:
     - VERSION=`sed -n '/versionName/p' < constants.gradle | tr -dc '0-9.'`
     - echo "Releasing Version:" v$VERSION
     # TAG PRIVATE REPO
+    - git tag -d v$VERSION  #  remove me
     - git tag -a v$VERSION -m "v$VERSION"
     - git push origin --tags
     # PUSH TO PUBLIC REPO
