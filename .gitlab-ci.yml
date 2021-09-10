@@ -79,6 +79,7 @@ release:
   stage: release
 #  when: manual
   script:
+    - export
     - VERSION=`sed -n '/versionName/p' < constants.gradle | tr -dc '0-9.'`
     - echo "Releasing Version:" v$VERSION
     # TAG PRIVATE REPO
