@@ -85,11 +85,11 @@ release:
 #    - git tag -a v$VERSION -m "v$VERSION"
 #    - git push origin --tags
     # PUSH TO PUBLIC REPO
-    - git checkout master
-    - git remote remove github
-    - git remote add github git@github.com:PerformanceHorizonGroup/partnerize-mobile-sdk-android.git
-    - git push github
-    - gh release create v$VERSION -t $VERSION
+#    - git checkout master
+#    - git remote remove github
+#    - git remote add github git@github.com:PerformanceHorizonGroup/partnerize-mobile-sdk-android.git
+#    - git push github
+#    - gh release create v$VERSION -t $VERSION
     # PUSH TO MAVEN
     - ./gradlew partnerize-tracking:publishReleasePublicationToSonatypeRepository
 
