@@ -9,7 +9,7 @@ cache:
 
 stages:
   - build
-  - test
+#  - test
   - lint
   - release
 
