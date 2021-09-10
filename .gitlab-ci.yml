@@ -91,6 +91,6 @@ release:
 #    - git push github
 #    - gh release create v$VERSION -t $VERSION
     # PUSH TO MAVEN
-    - ./gradlew partnerize-tracking:publishReleasePublicationToSonatypeRepository --debug
+    - ./gradlew partnerize-tracking:publishReleasePublicationToSonatypeRepository --info
 
 
