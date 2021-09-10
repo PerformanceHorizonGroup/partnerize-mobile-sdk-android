@@ -82,10 +82,11 @@ release:
     - VERSION=`sed -n '/versionName/p' < constants.gradle | tr -dc '0-9.'`
     - echo "Releasing Version:" $VERSION
     # TAG PRIVATE REPO
-    - git tag -a $VERSION -m "$VERSION"
+    - git tag -a v$VERSION -m "v$VERSION"
     - git push origin --tags
     # PUSH TO PUBLIC REPO
-    - git remote add github https://github.com/performancehorizongroup/partnerize-mobile-sdk-android
+    - git checkout master
+    - git remote add github git@gitlab.phg.io:mobile/partnerize-android-sdk.git
     - git push github
     - gh release create $VERSION -t $VERSION
     # PUSH TO MAVEN
