@@ -2,10 +2,10 @@
 variables:
   ANDROID_COMPILE_SDK: "28"
 
-cache:
-  key: ${CI_PROJECT_ID}
-  paths:
-    - .gradle/
+#cache:
+#  key: ${CI_PROJECT_ID}
+#  paths:
+#    - .gradle/
 
 stages:
   - build
