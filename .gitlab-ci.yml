@@ -10,7 +10,7 @@ cache:
 stages:
   - build
 #  - test
-  - lint
+#  - lint
   - release
 
 before_script:
@@ -64,16 +64,16 @@ build:release:
 #    - ./gradlew cAT
 #    - adb -s emulator-5554 emu kill
 
-lint:
-  stage: lint
-  script:
-    - ./gradlew lint
-  artifacts:
-    expire_in: 4 days
-    paths:
-      - ./partnerize-tracking/build/reports
-      - ./partnerize/build/reports
-
+#lint:
+#  stage: lint
+#  script:
+#    - ./gradlew lint
+#  artifacts:
+#    expire_in: 4 days
+#    paths:
+#      - ./partnerize-tracking/build/reports
+#      - ./partnerize/build/reports
+#
 
 release:
   stage: release
