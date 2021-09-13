@@ -92,8 +92,8 @@ release:
     - VERSION=v`sed -n '/versionName/p' < constants.gradle | tr -dc '0-9.'`
     - echo "Releasing Version:" $VERSION
     # TAG PRIVATE REPO
-#    - git tag -a $VERSION -m "$VERSION"
-#    - git push origin --tags
+    - git tag -a $VERSION -m "$VERSION"
+    - git push origin --tags
     # PUSH TO PUBLIC REPO
     - git checkout master
     - git remote remove github
@@ -102,6 +102,7 @@ release:
     - git push github $VERSION
     - gh release create $VERSION -t $VERSION
     # PUSH TO MAVEN
+    - ./gradlew wrapper --gradle-version 6.7.1
     - ./gradlew partnerize-tracking:publishReleasePublicationToSonatypeRepository --info
 
 
