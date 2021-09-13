@@ -84,8 +84,8 @@ lint:
 release:
   stage: release
   when: manual
-  only:
-  - master
+#  only:
+#  - master
   except:
     - tags
   script:
