@@ -99,6 +99,7 @@ release:
     - git remote remove github
     - git remote add github git@github.com:PerformanceHorizonGroup/partnerize-mobile-sdk-android.git || true
     - git push github
+    - git push github --tags
     - gh release create $VERSION -t $VERSION
     # PUSH TO MAVEN
     - ./gradlew partnerize-tracking:publishReleasePublicationToSonatypeRepository --info
