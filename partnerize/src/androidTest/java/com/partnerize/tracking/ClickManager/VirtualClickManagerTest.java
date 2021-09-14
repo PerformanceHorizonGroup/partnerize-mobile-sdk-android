@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -64,8 +65,13 @@ public class VirtualClickManagerTest {
             @Override
             public void complete(VirtualClick click) {
                 assertEquals("9g9g9g9g9g9g",click.getClickref());
+                assertEquals("1a1a1a1a",click.getCamRef());
                 assertEquals("https://molimo.partnerize.com/product/999999999",click.getDestination());
-
+                assertNull(click.getDestinationMobile());
+                assertEquals("test", click.getUtmParams().get("utm_source"));
+                assertEquals("testParam1", click.getMetaParams().get("testParam1"));
+                assertEquals(2, click.getMetaParams().values().size());
+                assertEquals(1, click.getUtmParams().values().size());
                 expectation.complete("success");
             }
 

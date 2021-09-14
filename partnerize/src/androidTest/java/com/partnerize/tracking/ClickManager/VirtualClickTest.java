@@ -12,7 +12,7 @@ public class VirtualClickTest {
     @Test
     public void testVirtualClickBuildWithInvalidJSON() {
         final String response = TestClickConsts.invalidJsonResponse;
-        VirtualClick.VirtualClickBuilder builder = new VirtualClick.VirtualClickBuilder();
+        VirtualClickBuilder builder = new VirtualClickBuilder();
 
         try {
             builder.buildWithJSON(response);
@@ -25,7 +25,7 @@ public class VirtualClickTest {
     @Test
     public void testVirtualClickBuildWithValidJSON() throws Throwable {
         final String response = TestClickConsts.validJsonResponse;
-        VirtualClick.VirtualClickBuilder builder = new VirtualClick.VirtualClickBuilder();
+        VirtualClickBuilder builder = new VirtualClickBuilder();
         VirtualClick click = builder.buildWithJSON(response);
 
         assertEquals("9g9g9g9g9g9g", click.getClickref());

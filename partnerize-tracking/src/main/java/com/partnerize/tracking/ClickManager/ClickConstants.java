@@ -6,5 +6,7 @@ class ClickConstants {
     static final String TYPE_MOBILE_COMPONENT = "type:mobile";
 
     public static final String JSON_CLICKREF_KEY = "clickref";
+    public static final String JSON_CAMREF_KEY = "camref";
     public static final String JSON_DESTINATION_KEY = "destination";
+    public static final String JSON_DESTINATION_MOBILE_KEY = "destination_mobile";
 }
