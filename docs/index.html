@@ -77,6 +77,10 @@
             
             <li class="nav-item" data-level="1"><a href="#resources" class="nav-link">Resources</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#click" class="nav-link">Click</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#conversion" class="nav-link">Conversion</a>
               <ul class="nav flex-column">
               </ul>
@@ -139,6 +143,40 @@
 <h2 id="handling-inbound-clicks">Handling inbound clicks</h2>
 <p>When an inbound intent from a mobile web browser or Android app launches your Android app via a deep link, a Conversion instance can be constructed from the intent, preserving the click reference.</p>
 <p>In Android version 25 and over, links are no longer redirected from the browser, but instead handled directly in the Advertiser app. To handle this scenario, the SDK provides a beginConversion method to register the click with partnerize ready for conversion, as shown in the bellow snipped.</p>
+<pre><code class="language-java">    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        // inbound intent from partner app
+        final Intent intent = getIntent();
+
+        // uri -&gt; https://example.prf.hn/click/camref:xxx/destination:https://example.domain.com/product/xxxx
+        final Uri uri = intent.getData();
+
+        Partnerize partnerize = new Partnerize(getApplicationContext());
+
+        new Partnerize(this).beginConversion(uri, new CompletableVirtualClick() {
+            @Override
+            public void complete(VirtualClick click) {
+                String destination = click.getDestination();
+                String camRef = click.getCamRef();
+                String clickRef = click.getClickRef();
+                Map&lt;String, String&gt; utmParams = click.getUtmParams();
+                Map&lt;String, String&gt; meta = click.getMetaParams();
+
+                intent.setData(destination);
+                // create outbound Intent to view the product and/or register Conversion
+                Conversion conversion = new Conversion(intent, clickRef);
+            }
+
+            @Override
+            public void error(PartnerizeException exception) {
+
+            }
+        });
+    }
+</code></pre>
+<p>Alternatively, if just the destination URL is required, use the following method.</p>
 <pre><code class="language-java">protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
@@ -146,9 +184,8 @@
     // inbound intent from partner app
     final Intent intent = getIntent();
 
-    final Uri uri = intent.getData();
-
     // uri -&gt; https://example.prf.hn/click/camref:xxx/destination:https://example.domain.com/product/xxxx
+    final Uri uri = intent.getData();
 
     Partnerize partnerize = new Partnerize(getApplicationContext());
     partnerize.beginConversion(uri, new CompletableClick() {
@@ -213,6 +250,16 @@ Response response = client.newCall(request).execute();
 <pre><code class="language-java">String url = new Conversion.Builder(&quot;my_click_reference&quot;).toString();
 </code></pre>
 <h1 id="resources">Resources</h1>
+<h2 id="click">Click</h2>
+<p>The <code>Click</code> class describes attributes and items within a click. This is accessed with a Virtual Click Handler when calling <code>Partnerize.beginConversion</code>.</p>
+<pre><code class="language-java">
+    String destination = click.getDestination();
+    String camRef = click.getCamRef();
+    String clickRef = click.getClickRef();
+    Map&lt;String, String&gt; utmParams = click.getUtmParams();
+    Map&lt;String, String&gt; meta = click.getMetaParams();
+
+</code></pre>
 <h2 id="conversion">Conversion</h2>
 <p>The <code>Conversion</code> class describes attributes and items within a conversion.</p>
 <p>The following code example demonstrates how to build a <code>Conversion</code> using the <code>Conversion.Builder</code>.</p>
@@ -489,5 +536,5 @@ String url = builder.toString();
 
 <!--
 MkDocs version : 1.2.2
-Build Date UTC : 2021-09-16 15:14:07.129979+00:00
+Build Date UTC : 2021-09-23 15:06:20.663347+00:00
 -->

@@ -40,6 +40,46 @@ When an inbound intent from a mobile web browser or Android app launches your An
 
 In Android version 25 and over, links are no longer redirected from the browser, but instead handled directly in the Advertiser app. To handle this scenario, the SDK provides a beginConversion method to register the click with partnerize ready for conversion, as shown in the bellow snipped.
 
+
+
+```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        // inbound intent from partner app
+        final Intent intent = getIntent();
+
+        // uri -> https://example.prf.hn/click/camref:xxx/destination:https://example.domain.com/product/xxxx
+        final Uri uri = intent.getData();
+
+        Partnerize partnerize = new Partnerize(getApplicationContext());
+
+        new Partnerize(this).beginConversion(uri, new CompletableVirtualClick() {
+            @Override
+            public void complete(VirtualClick click) {
+                String destination = click.getDestination();
+                String camRef = click.getCamRef();
+                String clickRef = click.getClickRef();
+                Map<String, String> utmParams = click.getUtmParams();
+                Map<String, String> meta = click.getMetaParams();
+
+                intent.setData(destination);
+                // create outbound Intent to view the product and/or register Conversion
+                Conversion conversion = new Conversion(intent, clickRef);
+            }
+
+            @Override
+            public void error(PartnerizeException exception) {
+
+            }
+        });
+    }
+```
+
+
+Alternatively, if just the destination URL is required, use the following method.
+
 ```java
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -48,9 +88,8 @@ protected void onCreate(Bundle savedInstanceState) {
     // inbound intent from partner app
     final Intent intent = getIntent();
 
-    final Uri uri = intent.getData();
-
     // uri -> https://example.prf.hn/click/camref:xxx/destination:https://example.domain.com/product/xxxx
+    final Uri uri = intent.getData();
 
     Partnerize partnerize = new Partnerize(getApplicationContext());
     partnerize.beginConversion(uri, new CompletableClick() {
@@ -131,6 +170,21 @@ String url = new Conversion.Builder("my_click_reference").toString();
 ```
 
 # Resources
+
+## Click
+
+The `Click` class describes attributes and items within a click. This is accessed with a Virtual Click Handler when calling `Partnerize.beginConversion`.
+
+```java
+
+    String destination = click.getDestination();
+    String camRef = click.getCamRef();
+    String clickRef = click.getClickRef();
+    Map<String, String> utmParams = click.getUtmParams();
+    Map<String, String> meta = click.getMetaParams();
+
+```
+
 
 ## Conversion
 
