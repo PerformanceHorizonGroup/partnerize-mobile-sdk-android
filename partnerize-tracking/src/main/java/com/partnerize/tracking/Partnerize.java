@@ -33,14 +33,12 @@ public class Partnerize implements PartnerizeSDK {
 
     @Override
     public void beginConversion(Uri uri, final CompletableClick completable) throws IllegalArgumentException {
-        if(uri == null || uri.getPath() == "")
-            throw new IllegalArgumentException("Parameter uri must not be null or empty");
+        validateUri(uri);
 
         if(completable == null)
             throw new IllegalArgumentException("Parameter completable must not be null");
 
         VirtualClickManager manager = createClickManager();
-
 
         if(manager.isClickRequest(uri)) {
 
@@ -70,6 +68,46 @@ public class Partnerize implements PartnerizeSDK {
 
             completable.complete(result.uri, result.clickRef);
         }
+    }
+
+    @Override
+    public void beginConversion(Uri uri, final CompletableVirtualClick completable) throws IllegalArgumentException {
+        validateUri(uri);
+
+        if(completable == null)
+            throw new IllegalArgumentException("Parameter completable must not be null");
+
+        VirtualClickManager manager = createClickManager();
+        if(manager.isClickRequest(uri)) {
+            manager.createVirtualClick(uri, new com.partnerize.tracking.ClickManager.CompletableClick() {
+                @Override
+                public void complete(VirtualClick click) {
+                    String clickRef = click.getClickref();
+                    prefs.setClickRef(clickRef);
+                    completable.complete(click);
+                }
+
+                @Override
+                public void error(ClickException ex) {
+                    completable.error(new PartnerizeException("Failed to create click.", ex));
+                }
+            });
+        } else {
+            UriClickRef result = filterClickRef(uri);
+
+            if(result.clickRef != null && result.clickRef.length() > 0) {
+                prefs.setClickRef(result.clickRef);
+            } else {
+                Log.i("PARTNERIZE", "No clickRef received.");
+            }
+
+            completable.complete(null);
+        }
+    }
+
+    private void validateUri(Uri uri) {
+        if(uri == null || uri.getPath().isEmpty())
+            throw new IllegalArgumentException("Parameter uri must not be null or empty");
     }
 
     @Override

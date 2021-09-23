@@ -1,31 +1,33 @@
-image: jangrewe/gitlab-ci-android
 
 variables:
   ANDROID_COMPILE_SDK: "28"
 
-cache:
-  key: ${CI_PROJECT_ID}
-  paths:
-    - .m2/
-    - .gradle/
-
 stages:
   - build
   - test
+  - lint
+  - release
 
 before_script:
+  - export ANDROID_HOME=$HOME/Library/Android/sdk
+  - export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+  - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
   - export GRADLE_USER_HOME=$(pwd)/.gradle
   - chmod +x ./gradlew
-  - apt-get update -y && apt-get install wget -y
+  - git remote set-url origin https://gitlab-ci-token:$CI_PUSH_TOKEN@gitlab.phg.io/mobile/$CI_PROJECT_NAME.git
+  - git config --global user.email '${GITLAB_USER_EMAIL}'
+  - git config --global user.name '${GITLAB_USER_ID}'
 
 .build_template: &build
   stage: build
+  except:
+    - tags
   artifacts:
     expire_in: 4 hours
     paths:
-      - app/build/outputs/
+      - ./partnerize/build/outputs/
 
-build:develop:
+build:debug:
   <<: *build
   script:
     - ./gradlew assembleDebug
@@ -39,22 +41,64 @@ build:release:
 
 .test_template: &test
   stage: test
+  except:
+    - tags
 
-test:unit:
+unit:
   <<: *test
   script:
     - ./gradlew test
 
-test:functional:
+instrumented:
   <<: *test
-  when: manual
   script:
     - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
     - chmod +x android-wait-for-emulator
     - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86"
     - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager --update
-    - echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -k "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86" -n test
-    - ${ANDROID_HOME}/tools/emulator -avd test -no-window -no-audio
+    - echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -k "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86" -n test --force
+    - ${ANDROID_HOME}/emulator/emulator -avd test -no-audio -no-window -no-boot-anim &
     - ./android-wait-for-emulator
     - adb shell input keyevent 82
     - ./gradlew cAT
+    - adb -s emulator-5554 emu kill
+
+lint:
+  stage: lint
+  except:
+    - tags
+  script:
+    - ./gradlew lint
+  artifacts:
+    expire_in: 4 days
+    paths:
+      - ./partnerize-tracking/build/reports
+      - ./partnerize/build/reports
+
+
+release:
+  stage: release
+  when: manual
+  only:
+  - master
+  except:
+    - tags
+  script:
+    - VERSION=v`sed -n '/versionName/p' < constants.gradle | tr -dc '0-9.'`
+    - echo "Releasing Version:" $VERSION
+    # TAG PRIVATE REPO
+    - git tag -a $VERSION -m "$VERSION"
+    - git push origin --tags
+    # PUSH TO PUBLIC REPO
+    - git checkout master
+    - git remote remove github
+    - git remote add github git@github.com:PerformanceHorizonGroup/partnerize-mobile-sdk-android.git
+    - git push github
+    - git push github $VERSION
+    - gh release create $VERSION -t $VERSION
+    # PUSH TO MAVEN
+    - ./gradlew wrapper --gradle-version=6.7.1 --distribution-type=all
+    - ./gradlew tasks
+    - ./gradlew partnerize-tracking:publishReleasePublicationToSonatypeRepository --info
+
+

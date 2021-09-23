@@ -3,6 +3,7 @@ package com.partnerize.tracking;
 import android.content.Context;
 import android.net.Uri;
 
+import com.partnerize.tracking.ClickManager.VirtualClick;
 import com.partnerize.tracking.Mocks.MockGetRequest;
 import com.partnerize.tracking.Mocks.MockPartnerize;
 import com.partnerize.tracking.Mocks.MockPrefs;
@@ -180,6 +181,46 @@ public class PartnerizeInstrumentedTest {
 
         Assert.assertEquals(expectedResult, actual);
     }
+
+    @Test
+    public void testPartnerizeValidUrlPassedToBeginConversionCompletesForValidXlick() {
+        final CompletableFuture<String> expectation = new CompletableFuture<>();
+        final String expectedResult = "success";
+        final Uri uri = Uri.parse(TestClickConsts.uncompletedUri);
+        final Uri expected = Uri.parse("https://molimo.partnerize.com/product/999999999");
+
+        builder.setGetRequest(new MockGetRequest(200, TestClickConsts.validJsonResponse));
+
+        Partnerize partnerize = new MockPartnerize(mockContext, prefs, clickManager);
+
+        partnerize.beginConversion(uri, new CompletableVirtualClick() {
+            @Override
+            public void complete(VirtualClick click) {
+                Assert.assertEquals("9g9g9g9g9g9g", prefs.getClickRef());
+                Assert.assertEquals(expected, click.getDestinationUri());
+                Assert.assertNull(click.getDestinationMobileUri());
+                expectation.complete("success");
+            }
+
+            @Override
+            public void error(PartnerizeException exception) {
+                expectation.complete("failed");
+            }
+        });
+
+        String actual = null;
+
+        try {
+            actual = expectation.get();
+        } catch (ExecutionException e) {
+            fail("beginConversion failed: " + e.getLocalizedMessage());
+        } catch (InterruptedException e) {
+            fail("beginConversion failed: " + e.getLocalizedMessage());
+        }
+
+        Assert.assertEquals(expectedResult, actual);
+    }
+
 
 
     @Test
