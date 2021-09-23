@@ -33,5 +33,11 @@ android {
 
 if (project.rootProject.file('local.properties').exists()) {
     apply from: "${rootDir}/install.gradle"
-    apply from: "${rootDir}/bintray.gradle"
 }
+
+ext {
+    PUBLISH_GROUP_ID = 'com.partnerize.android'
+    PUBLISH_ARTIFACT_ID = 'tracking'
+}
+
+apply from: "${rootProject.projectDir}/publish-module.gradle"

@@ -50,6 +50,15 @@ public class VirtualClickManagerTest {
     }
 
     @Test
+    public void testVirtualClickManagerDetectsValidShortenedClickRequestUri() {
+        final Uri uri = Uri.parse(TestClickConsts.shortenedIncompleteUri);
+
+        VirtualClickManager manager = new VirtualClickManager();
+        final boolean result = manager.isClickRequest(uri);
+
+        assertTrue(result);
+    }
+    @Test
     public void testVirtualClickManagerHandlesValidUri() {
         final CompletableFuture<String> expectation = new CompletableFuture<>();
         final String expectedResult = "success";

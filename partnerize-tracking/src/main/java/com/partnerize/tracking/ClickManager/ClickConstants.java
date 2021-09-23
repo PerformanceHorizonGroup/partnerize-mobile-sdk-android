@@ -2,6 +2,7 @@ package com.partnerize.tracking.ClickManager;
 
 class ClickConstants {
     static final String CLICK_URI_COMPONENT = "click";
+    static final String SHORTENED_CLICK_URI_COMPONENT = "l";
     static final String MODE_JSON_COMPONENT = "mode:json";
     static final String TYPE_MOBILE_COMPONENT = "type:mobile";
 
