@@ -6,14 +6,19 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
     }
+
     dependencies {
         classpath "com.android.tools.build:gradle:${project.ext.gradleVersion}"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
+
+plugins {
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
+}
+
 
 allprojects {
     repositories {
@@ -23,3 +28,5 @@ allprojects {
 
     project.apply from: "${rootDir}/constants.gradle"
 }
+
+apply from: "${rootDir}/publish-root.gradle"

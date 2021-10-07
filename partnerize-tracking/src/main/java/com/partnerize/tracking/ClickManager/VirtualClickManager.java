@@ -10,10 +10,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class VirtualClickManager {
-    private VirtualClick.VirtualClickBuilder clickBuilder;
+    private VirtualClickBuilder clickBuilder;
 
     public VirtualClickManager() {
-        clickBuilder = new VirtualClick.VirtualClickBuilder();
+        clickBuilder = new VirtualClickBuilder();
     }
 
     protected RequestBuilder getRequestBuilder() {

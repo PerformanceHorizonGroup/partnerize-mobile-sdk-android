@@ -37,6 +37,8 @@ public class ConversionTest {
         builder1.setCountry("GB");
         builder1.setCurrency("GBP");
         builder1.setVoucher("voucher");
+        builder1.setTrafficSource(TrafficSource.DISPLAY);
+        builder1.setConversionMetric("testMetric");
         builder1.addMetadata("metadata1", "value1");
         builder1.addMetadata("metadata2", "value2");
         builder1.addConversionItem(new ConversionItem.Builder("19.99", "Shoes").build());
@@ -51,6 +53,8 @@ public class ConversionTest {
         assertEquals("GB", conversion1.getCountry());
         assertEquals("GBP", conversion1.getCurrency());
         assertEquals("voucher", conversion1.getVoucher());
+        assertEquals("Display", conversion1.getTrafficSource());
+        assertEquals("testMetric", conversion1.getConversionMetric());
         HashMap<String, String> metadata1 = conversion1.getMetadata();
         assertEquals(2, metadata1.size());
         assertEquals("value1", metadata1.get("metadata1"));

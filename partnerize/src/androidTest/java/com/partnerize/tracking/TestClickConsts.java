@@ -13,6 +13,6 @@ public class TestClickConsts {
     public final static String invalidClickUri = "https://molimo.partnerize.com/product/4999999999?clickref=9g9g9g9g9g9g&app_clickref=9g9g9g9g9g9g&adref=";
 
     public final static String missingSchemeUri = "/molimo.prf.hn/click/camref:1a1a1a1a/destination:https://molimo.partnerize.com/product/999999999";
-    public final static String validJsonResponse = "{\"clickref\":\"9g9g9g9g9g9g\",\"camref\":\"1a1a1a1a\",\"destination\":\"https:\\/\\/molimo.partnerize.com\\/product\\/999999999\",\"destination_mobile\":null}";
+    public final static String validJsonResponse = "{\"clickref\":\"9g9g9g9g9g9g\",\"camref\":\"1a1a1a1a\",\"destination\":\"https:\\/\\/molimo.partnerize.com\\/product\\/999999999\",\"destination_mobile\":null,\"utm_source\":\"test\",\"testParam1\":\"testParam1\",\"testParam2\":\"testParam2\"}";
     public final static String invalidJsonResponse = "{\"clickref\":\"9g9g9g9g9g9g\",\"camref:1a1a1a1a\",\"destination\":\"https:\\/\\/molimo.partnerize.com\\/product\\/999999999\",\"destination_mobile\":null}";
 }

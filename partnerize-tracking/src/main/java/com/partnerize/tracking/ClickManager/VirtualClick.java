@@ -1,23 +1,25 @@
 package com.partnerize.tracking.ClickManager;
 
-import android.os.Build;
-import android.text.TextUtils;
+import android.net.Uri;
 
-import com.partnerize.tracking.Utility;
-
-import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URI;
 import java.util.Map;
 
 public class VirtualClick {
-    private String clickref;
-    private String destination;
+    private final String clickref;
+    private final String destination;
+    private final String camRef;
+    private final String destinationMobile;
+    private final Map<String, String> utmParams;
+    private final Map<String, String> metaParams;
 
-    private VirtualClick(String clickref, String destination) {
+    VirtualClick(String clickref, String camRef, String destination, String destinationMobile, Map<String, String> utmParams, Map<String, String> metaParams) {
         this.clickref = clickref;
+        this.camRef = camRef;
         this.destination = destination;
+        this.destinationMobile = destinationMobile;
+        this.utmParams = utmParams;
+        this.metaParams = metaParams;
     }
 
     public String getClickref() {
@@ -28,50 +30,76 @@ public class VirtualClick {
         return destination;
     }
 
-    static class VirtualClickBuilder {
+    public String getCamRef() {
+        return camRef;
+    }
 
-        VirtualClick buildWithJSON(String json) throws ClickException {
-            if(json == null || json.equals("")) {
-                throw new ClickException("Invalid JSON. JSON Missing");
-            }
+    public String getDestinationMobile() {
+        return destinationMobile;
+    }
 
-            Map<String, Object> jsonData;
+    public Map<String, String> getUtmParams() {
+        return utmParams;
+    }
 
-            try {
-                jsonData = Utility.jsonToMap(json);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                throw new ClickException("Invalid JSON.", e);
-            }
+    public Map<String, String> getMetaParams() {
+        return metaParams;
+    }
 
-            if(jsonData == null) {
-                throw new ClickException("Invalid JSON. Failed to read JSON: " + json);
-            }
+    public Uri getDestinationUri() {
+        return Uri.parse(destination);
+    }
 
-            List<String> validationResult = this.validateJSONResponse(jsonData);
+    public Uri getDestinationMobileUri() {
+        return destinationMobile == null ? null : Uri.parse(destinationMobile);
+    }
 
-            if(validationResult.size() > 0) {
-                throw new ClickException(String.format("%s %s","Invalid JSON. Missing Keys:", TextUtils.join(", ", validationResult)));
-            }
+    static class Builder {
+        private String clickref;
+        private String destination;
+        private String camRef;
+        private String destinationMobile;
+        private Map<String, String> utmParams;
+        private Map<String, String> metaParams;
 
-            String clickref = (String) jsonData.get(ClickConstants.JSON_CLICKREF_KEY);
-            String destination = (String) jsonData.get(ClickConstants.JSON_DESTINATION_KEY);
-
-            return new VirtualClick(clickref, destination);
+        public Builder setClickref(String clickref) {
+            this.clickref = clickref;
+            return this;
         }
 
-        private List<String> validateJSONResponse(Map<String, Object> jsonData) {
-            List<String> missingKeys = new ArrayList<>();
+        public Builder setDestination(String destination) {
+            this.destination = destination;
+            return this;
+        }
 
-            if(!jsonData.containsKey(ClickConstants.JSON_CLICKREF_KEY)) {
-                missingKeys.add(ClickConstants.JSON_CLICKREF_KEY);
-            }
+        public Builder setCamRef(String camRef) {
+            this.camRef = camRef;
+            return this;
+        }
 
-            if(!jsonData.containsKey(ClickConstants.JSON_DESTINATION_KEY)) {
-                missingKeys.add(ClickConstants.JSON_DESTINATION_KEY);
-            }
+        public Builder setDestinationMobile(String destinationMobile) {
+            this.destinationMobile = destinationMobile;
+            return this;
+        }
 
-            return missingKeys;
+        public Builder setUtmParams(Map<String, String> utmParams) {
+            this.utmParams = utmParams;
+            return this;
+        }
+
+        public Builder setMetaParams(Map<String, String> metaParams) {
+            this.metaParams = metaParams;
+            return this;
+        }
+
+        public VirtualClick build() {
+            return new VirtualClick(
+                    clickref,
+                    camRef,
+                    destination,
+                    destinationMobile,
+                    utmParams,
+                    metaParams);
         }
     }
 }

@@ -1,0 +1,74 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin("com.android.library")) {
+        // For Android libraries
+        from android.sourceSets.main.java.srcDirs
+    } else {
+        // For pure Kotlin libraries, in case you have them
+        from sourceSets.main.java.srcDirs
+    }
+}
+
+artifacts {
+    archives androidSourcesJar
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId PUBLISH_GROUP_ID
+                artifactId PUBLISH_ARTIFACT_ID
+                version versionName
+
+                // Two artifacts, the `aar` (or `jar`) and the sources
+                if (project.plugins.findPlugin("com.android.library")) {
+                    from components.release
+                } else {
+                    from components.java
+                }
+
+                artifact androidSourcesJar
+
+                pom {
+                    name = PUBLISH_ARTIFACT_ID
+                    description = 'Parternerize Mobile SDK - Android'
+                    url = 'https://github.com/performancehorizongroup/partnerize-mobile-sdk-android'
+                    licenses {
+                        license {
+                            name = 'Apache-2.0'
+                            url = 'https://www.apache.org/licenses/LICENSE-2.0'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'PartnerizeJosh'
+                            name = 'Joshua Greenwood'
+                            email = 'joshua.greenwood@partnerize.com'
+                        }
+                        // Add all other devs here...
+                    }
+
+                    // Version control info - if you're using GitHub, follow the
+                    // format as seen here
+                    scm {
+                        connection = 'scm:git:github.com/performancehorizongroup/partnerize-mobile-sdk-android.git'
+                        developerConnection = 'scm:git:ssh://github.com/performancehorizongroup/partnerize-mobile-sdk-android.git'
+                        url = 'https://github.com/performancehorizongroup/partnerize-mobile-sdk-android/'
+                    }
+                }
+            }
+        }
+    }
+}
+signing {
+    useInMemoryPgpKeys(
+            rootProject.ext["signing.keyId"],
+            rootProject.ext["signing.key"],
+            rootProject.ext["signing.password"],
+    )
+    sign publishing.publications
+}

@@ -3,6 +3,7 @@ package com.partnerize.tracking.ClickManager;
 import android.net.Uri;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,6 @@ public class ClickHelper {
 
 
     static Uri addAPIModeToUri(Uri uri) throws ClickException {
-
 
         String clickComponent = String.format("%s/", CLICK_URI_COMPONENT);
         String modeJsonComponent = String.format("%s/", MODE_JSON_COMPONENT);
@@ -51,12 +51,14 @@ public class ClickHelper {
         }
 
         String baseUri = String.format("%s/%s/%s", CLICK_URI_COMPONENT, MODE_JSON_COMPONENT, TYPE_MOBILE_COMPONENT);
-        String newUrl = String.format("%s/%s/%s", getBaseUrl(uri), baseUri, modifiedPath);
+
+        String newUrl = String.format("%s/%s/%s", buildBaseUrl(uri), baseUri, modifiedPath);
 
         return Uri.parse(newUrl);
     }
 
-    private static String getBaseUrl(Uri uri) {
+
+    private static String buildBaseUrl(Uri uri) {
         return String.format("%s://%s", uri.getScheme(), uri.getHost());
     }
 
