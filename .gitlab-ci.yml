@@ -93,6 +93,7 @@ release:
     - git checkout master
     - git remote remove github
     - git remote add github git@github.com:PerformanceHorizonGroup/partnerize-mobile-sdk-android.git
+    - git pull github
     - git push github
     - git push github $VERSION
     - gh release create $VERSION -t $VERSION
@@ -100,5 +101,3 @@ release:
     - ./gradlew wrapper --gradle-version=6.7.1 --distribution-type=all
     - ./gradlew tasks
     - ./gradlew partnerize-tracking:publishReleasePublicationToSonatypeRepository --info
-
-
