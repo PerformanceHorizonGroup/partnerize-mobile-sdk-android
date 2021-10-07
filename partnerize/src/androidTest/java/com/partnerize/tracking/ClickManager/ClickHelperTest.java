@@ -44,7 +44,7 @@ public class ClickHelperTest {
     @Test
     public void shouldNotAddModeToUri_GivenAShortLink() {
         final Uri uri = Uri.parse("https://molimo.prf.hn/l/7BvPDk1");
-        final Uri expected = Uri.parse("https://molimo.prf.hn/l/7BvPDk1");
+        final Uri expected = Uri.parse("https://molimo.prf.hn/l/7BvPDk1/mode:json/type:mobile/");
 
         try {
             Uri result = ClickHelper.addAPIModeToUri(uri);
