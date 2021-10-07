@@ -17,12 +17,17 @@ public class ClickHelper {
 
 
     static Uri addAPIModeToUri(Uri uri) throws ClickException {
-        if (uri.toString().contains("/l/")) {
-            return Uri.parse(buildBaseUrl(uri) + uri.getPath());
-        }
+
         String clickComponent = String.format("%s/", CLICK_URI_COMPONENT);
         String modeJsonComponent = String.format("%s/", MODE_JSON_COMPONENT);
         String typeMobileComponent = String.format("%s/", TYPE_MOBILE_COMPONENT);
+
+        if (uri.toString().contains("/l/")) {
+            return Uri.withAppendedPath(uri, modeJsonComponent + typeMobileComponent);
+        }
+
+
+
         final String empty = "";
 
         String modifiedPath = uri.getPath();
@@ -46,10 +51,12 @@ public class ClickHelper {
         }
 
         String baseUri = String.format("%s/%s/%s", CLICK_URI_COMPONENT, MODE_JSON_COMPONENT, TYPE_MOBILE_COMPONENT);
+
         String newUrl = String.format("%s/%s/%s", buildBaseUrl(uri), baseUri, modifiedPath);
 
         return Uri.parse(newUrl);
     }
+
 
     private static String buildBaseUrl(Uri uri) {
         return String.format("%s://%s", uri.getScheme(), uri.getHost());
