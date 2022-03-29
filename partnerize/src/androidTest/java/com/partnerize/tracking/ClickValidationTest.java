@@ -33,6 +33,13 @@ public class ClickValidationTest {
     }
 
     @Test
+    public void testPartnerizeNullUriIsNotValid() {
+        final boolean result = partnerize.isClickRequest(null);
+
+        assertFalse(result);
+    }
+
+    @Test
     public void testPartnerizeEmptyUriIsNotValid() {
         final Uri uri = Uri.parse(TestClickConsts.emptyUri);
 
