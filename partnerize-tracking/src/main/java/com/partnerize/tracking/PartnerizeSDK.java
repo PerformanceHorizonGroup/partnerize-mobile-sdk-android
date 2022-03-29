@@ -7,5 +7,7 @@ interface PartnerizeSDK {
 
     void beginConversion(Uri uri, CompletableVirtualClick completable);
 
+    boolean isClickRequest(Uri uri);
+
     String getClickRef();
 }
