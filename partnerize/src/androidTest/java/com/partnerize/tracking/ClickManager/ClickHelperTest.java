@@ -15,7 +15,7 @@ public class ClickHelperTest {
 
     @Test
     public void testAddAPIModeToUriWithUncompletedUri() {
-        final Uri uri = Uri.parse(TestClickConsts.uncompletedUri);
+        final Uri uri = Uri.parse(TestClickConsts.trackingUri);
         final Uri expected = Uri.parse("https://molimo.prf.hn/click/mode:json/type:mobile/camref:1a1a1a1a/destination:https://molimo.partnerize.com/product/999999999");
 
         try {
@@ -70,7 +70,7 @@ public class ClickHelperTest {
 
     @Test
     public void testIsClickRequestWithValidUri() {
-        final Uri uri = Uri.parse(TestClickConsts.uncompletedUri);
+        final Uri uri = Uri.parse(TestClickConsts.trackingUri);
 
         final boolean result = ClickHelper.isClickRequest(uri);
 
@@ -106,7 +106,7 @@ public class ClickHelperTest {
 
     @Test
     public void testIsClickRequestWithClickrefUri() {
-        final Uri uri = Uri.parse(TestClickConsts.completedUri);
+        final Uri uri = Uri.parse(TestClickConsts.completeUri);
 
         final boolean result = ClickHelper.isClickRequest(uri);
 

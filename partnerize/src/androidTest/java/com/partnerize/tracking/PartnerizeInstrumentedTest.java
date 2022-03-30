@@ -107,7 +107,7 @@ public class PartnerizeInstrumentedTest {
     public void testPartnerizeValidUriPassedToBeginConversionReturnsFilteredURL() {
         final CompletableFuture<String> expectation = new CompletableFuture<>();
         final String expectedResult = "success";
-        final Uri uri = Uri.parse(TestClickConsts.completedUri);
+        final Uri uri = Uri.parse(TestClickConsts.completeUri);
         final Uri expected = Uri.parse("https://molimo.partnerize.com/product/999999999?adref=&clickref=9g9g9g9g9g9g");
 
         builder.setGetRequest(new MockGetRequest(0, null));
@@ -148,7 +148,7 @@ public class PartnerizeInstrumentedTest {
     public void testPartnerizeValidUrlPassedToBeginConversionCompletesForValidUri() {
         final CompletableFuture<String> expectation = new CompletableFuture<>();
         final String expectedResult = "success";
-        final Uri uri = Uri.parse(TestClickConsts.uncompletedUri);
+        final Uri uri = Uri.parse(TestClickConsts.trackingUri);
         final Uri expected = Uri.parse("https://molimo.partnerize.com/product/999999999");
 
         builder.setGetRequest(new MockGetRequest(200, TestClickConsts.validJsonResponse));
@@ -186,7 +186,7 @@ public class PartnerizeInstrumentedTest {
     public void testPartnerizeValidUrlPassedToBeginConversionCompletesForValidXlick() {
         final CompletableFuture<String> expectation = new CompletableFuture<>();
         final String expectedResult = "success";
-        final Uri uri = Uri.parse(TestClickConsts.uncompletedUri);
+        final Uri uri = Uri.parse(TestClickConsts.trackingUri);
         final Uri expected = Uri.parse("https://molimo.partnerize.com/product/999999999");
 
         builder.setGetRequest(new MockGetRequest(200, TestClickConsts.validJsonResponse));

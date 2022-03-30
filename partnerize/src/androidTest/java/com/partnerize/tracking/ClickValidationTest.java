@@ -65,4 +65,13 @@ public class ClickValidationTest {
 
         assertTrue(result);
     }
+
+    @Test
+    public void testPartnerizeRegularUriIsValid() {
+        final Uri uri = Uri.parse(TestClickConsts.trackingUri);
+
+        final boolean result = partnerize.isClickRequest(uri);
+
+        assertTrue(result);
+    }
 }
