@@ -41,7 +41,7 @@ public class VirtualClickManagerTest {
 
     @Test
     public void testVirtualClickManagerDetectsValidClickRequestUri() {
-        final Uri uri = Uri.parse(TestClickConsts.uncompletedUri);
+        final Uri uri = Uri.parse(TestClickConsts.trackingUri);
 
         VirtualClickManager manager = new VirtualClickManager();
         final boolean result = manager.isClickRequest(uri);
@@ -62,7 +62,7 @@ public class VirtualClickManagerTest {
     public void testVirtualClickManagerHandlesValidUri() {
         final CompletableFuture<String> expectation = new CompletableFuture<>();
         final String expectedResult = "success";
-        final Uri uri = Uri.parse(TestClickConsts.uncompletedUri);
+        final Uri uri = Uri.parse(TestClickConsts.trackingUri);
 
         final String response = TestClickConsts.validJsonResponse;
 
@@ -109,7 +109,7 @@ public class VirtualClickManagerTest {
     public void testVirtualClickManagerHandlesValidUriWithInvalidResponse() {
         final CompletableFuture<String> expectation = new CompletableFuture<>();
         final String expectedResult = "failed";
-        final Uri uri = Uri.parse(TestClickConsts.uncompletedUri);
+        final Uri uri = Uri.parse(TestClickConsts.trackingUri);
 
         final String response = "";
 

@@ -105,6 +105,15 @@ public class Partnerize implements PartnerizeSDK {
         }
     }
 
+    @Override
+    public boolean isClickRequest(Uri uri) {
+        if (uri == null) {
+            return false;
+        }
+
+       return new VirtualClickManager().isClickRequest(uri);
+    }
+
     private void validateUri(Uri uri) {
         if(uri == null || uri.getPath().isEmpty())
             throw new IllegalArgumentException("Parameter uri must not be null or empty");
