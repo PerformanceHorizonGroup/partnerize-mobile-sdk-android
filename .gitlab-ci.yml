@@ -94,7 +94,7 @@ release:
     - git remote remove github
     - git remote add github git@github.com:PerformanceHorizonGroup/partnerize-mobile-sdk-android.git
     - git pull github master
-    - git push github -u origin master
+    - git push github master
     - git push github $VERSION
     - gh release create $VERSION -t $VERSION
     # PUSH TO MAVEN
