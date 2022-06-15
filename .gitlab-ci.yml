@@ -14,7 +14,7 @@ before_script:
   - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
   - export GRADLE_USER_HOME=$(pwd)/.gradle
   - chmod +x ./gradlew
-  - git remote set-url origin https://gitlab-ci-token:$CI_PUSH_TOKEN@gitlab.phg.io/mobile/$CI_PROJECT_NAME.git
+  - git remote set-url origin git@gitlab.phg.io:mobile/$CI_PROJECT_NAME.git
   - git config --global user.email '${GITLAB_USER_EMAIL}'
   - git config --global user.name '${GITLAB_USER_ID}'
 
