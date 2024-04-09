@@ -1,43 +1,45 @@
 //noinspection GradleDependency
-apply plugin: 'com.android.library'
-
-repositories { jcenter() }
+plugins {
+    alias(libs.plugins.androidApplication)
+}
 
 dependencies {
     // Partnerize dependencies
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
     project(':partnerize-tracking')
 
     // Unit tests
-    testImplementation 'junit:junit:4.12'
+    testImplementation libs.junit
     testImplementation project(path: ':partnerize-tracking')
 
     // version 3+ has issues on android
-    testImplementation "org.mockito:mockito-core:2.28.2"
+    testImplementation libs.mockito.core
 
 
     // Connected tests
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
     androidTestImplementation project(path: ':partnerize-tracking')
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation "org.mockito:mockito-android:2.28.2"
+    androidTestImplementation libs.androidx.rules
+    androidTestImplementation libs.mockito.android
 }
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
+    namespace 'com.partnerize.all'
+    compileSdk rootProject.project.ext.compileSdkVersion
 
     defaultConfig {
+        applicationId "com.partnerize.all"
+        minSdkVersion rootProject.project.ext.minSdkVersion
+        targetSdkVersion rootProject.project.ext.targetSdkVersion
+        versionCode rootProject.project.ext.versionCode
+        versionName rootProject.project.ext.versionName
+
         def addConstant = {constantName, constantValue ->
             manifestPlaceholders += [ (constantName):constantValue]
             buildConfigField "String", "${constantName}", "\"${constantValue}\""
         }
-
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
-        versionCode project.ext.versionCode
-        versionName project.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

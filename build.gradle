@@ -1,32 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-    project.apply from: "${rootDir}/constants.gradle"
-
-    repositories {
-        google()
-        jcenter()
-    }
-
-    dependencies {
-        classpath "com.android.tools.build:gradle:${project.ext.gradleVersion}"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-    }
-}
-
 plugins {
-    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.gradleNexus) apply false
 }
 
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
-
-    project.apply from: "${rootDir}/constants.gradle"
-}
-
-apply from: "${rootDir}/publish-root.gradle"
+apply from: "${rootDir}/constants.gradle"

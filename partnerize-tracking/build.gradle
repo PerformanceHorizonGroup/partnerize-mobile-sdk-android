@@ -1,16 +1,22 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+plugins {
+    alias(libs.plugins.androidLibrary)
+}
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
+    namespace 'com.partnerize.tracking'
+    compileSdk rootProject.project.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
-        versionCode project.ext.versionCode
-        versionName project.ext.versionName
+        minSdk rootProject.project.ext.minSdkVersion
+        targetSdkVersion rootProject.project.ext.targetSdkVersion
+        versionCode rootProject.project.ext.versionCode
+        versionName rootProject.project.ext.versionName
+
+        buildConfigField 'int', 'VERSION_CODE', "${versionCode}"
+        buildConfigField 'String', 'VERSION_NAME', "\"${versionName}\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -25,19 +31,21 @@ android {
         }
     }
 
-    dependencies {
-        implementation 'com.android.installreferrer:installreferrer:1.1.1'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
-}
+    buildFeatures {
+        buildConfig true
+    }
 
-if (project.rootProject.file('local.properties').exists()) {
-    apply from: "${rootDir}/install.gradle"
+    dependencies {
+        implementation libs.installreferrer
+    }
 }
 
 ext {
     PUBLISH_GROUP_ID = 'com.partnerize.android'
     PUBLISH_ARTIFACT_ID = 'tracking'
 }
-
-apply from: "${rootProject.projectDir}/publish-module.gradle"
