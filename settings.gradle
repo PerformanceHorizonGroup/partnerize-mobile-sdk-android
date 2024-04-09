@@ -1,1 +1,25 @@
+pluginManagement {
+    repositories {
+        /*google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }*/
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+//        project.apply from: "${rootDir}/constants.gradle"
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+//    project.apply from: "${rootDir}/constants.gradle"
+}
+
 include ':partnerize-tracking', ':partnerize'
