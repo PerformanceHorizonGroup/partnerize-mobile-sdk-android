@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Partnerize Mobile SDK - Android</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="css/extra.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">Partnerize Mobile SDK - Android</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="." class="nav-link active" aria-current="page">3.0.0</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="legacy/" class="nav-link">2.0</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" class="nav-link disabled">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="legacy/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#introduction" class="nav-link">Introduction</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#minimum-requirements" class="nav-link">Minimum Requirements</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#installation" class="nav-link">Installation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#add-the-partnerize-sdk" class="nav-link">Add the Partnerize SDK</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#quick-start" class="nav-link">Quick Start</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#initialise-the-sdk" class="nav-link">Initialise the SDK</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#handle-inbound-clicks" class="nav-link">Handle Inbound Clicks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#post-conversions" class="nav-link">Post Conversions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#stored-attribution-utilities" class="nav-link">Stored Attribution Utilities</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#logging" class="nav-link">Logging</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#partnerize-platform" class="nav-link">Partnerize Platform</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#build-a-conversion" class="nav-link">Build a Conversion</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#ascend-platform" class="nav-link">Ascend Platform</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#build-a-conversion_1" class="nav-link">Build a Conversion</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#license" class="nav-link">License</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#support" class="nav-link">Support</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#release-notes" class="nav-link">Release Notes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="introduction">Introduction</h1>
+<p>The Partnerize Android Mobile SDK enables your app to capture in-app referrals and accurately attribute subsequent sales. It simplifies tracking across web-to-app and app-to-app flows, providing seamless integration for recording conversions.</p>
+<hr />
+<h2 id="minimum-requirements">Minimum Requirements</h2>
+<ul>
+<li>Android API level 26 (Oreo)</li>
+<li>Gradle 8.7</li>
+<li>Android Studio 2022.3 (or compatible with Gradle 8.7)</li>
+<li>Java 17 or above / Kotlin 1.8</li>
+</ul>
+<hr />
+<h2 id="installation">Installation</h2>
+<h2 id="add-the-partnerize-sdk">Add the Partnerize SDK</h2>
+<p>You can integrate the SDK using <strong>Maven (recommended)</strong> or <strong>manual
+<code>.aar</code> installation</strong>.</p>
+<h3 id="maven-recommended">Maven (Recommended)</h3>
+<p>Add the dependency to your app-level <code>build.gradle</code> file.</p>
+<h4 id="groovy">Groovy</h4>
+<pre><code class="language-groovy">dependencies {
+    implementation 'com.partnerize.android:tracking:3.0.0'
+}
+</code></pre>
+<h4 id="kotlin">Kotlin</h4>
+<pre><code class="language-kotlin">dependencies {
+    implementation(&quot;com.partnerize.android:tracking:3.0.0&quot;)
+}
+</code></pre>
+<hr />
+<h3 id="manual-installation-aar">Manual Installation (.aar)</h3>
+<p>Use this method if you're provided with the SDK as a <code>.aar</code> file.</p>
+<h4 id="step-1-add-the-file">Step 1: Add the file</h4>
+<p>Place the <code>tracking-3.0.0.aar</code> file in:</p>
+<pre><code>app/libs
+</code></pre>
+<h4 id="step-2-update-your-gradle-configuration">Step 2: Update your Gradle configuration</h4>
+<pre><code class="language-groovy">// groovy DSL
+repositories {
+    flatDir {
+        dirs &quot;libs&quot;
+    }
+}
+
+dependencies {
+    implementation(name: &quot;tracking-3.0.0&quot;, ext: &quot;aar&quot;)
+}
+</code></pre>
+<pre><code class="language-kotlin">// kotlin DSL
+dependencies {
+    implementation(files(&quot;libs/tracking-3.0.0.aar&quot;))
+}
+</code></pre>
+<h4 id="step-3-resync-the-gradle-project">Step 3: Resync the gradle project</h4>
+<hr />
+<h1 id="quick-start">Quick Start</h1>
+<h2 id="initialise-the-sdk">Initialise the SDK</h2>
+<p>Create an instance per platform you need. You can keep both if you support both Partnerize and Ascend.</p>
+<pre><code class="language-kotlin">val sdkPartnerize = PartnerizeTracking.partnerize(applicationContext)
+val sdkAscend = PartnerizeTracking.ascend(applicationContext, &quot;your_ascend_api_key&quot;)
+</code></pre>
+<hr />
+<h2 id="handle-inbound-clicks">Handle Inbound Clicks</h2>
+<p>Process incoming tracking URLs and optionally persist the click reference for later conversions.</p>
+<pre><code class="language-kotlin">val attribution = sdkPartnerize.captureAttribution(
+    url = inboundUri,
+    persist = true // default; set false to avoid storing
+)
+</code></pre>
+<p>If the URL is invalid or missing required parameters, a <code>PartnerizeException</code> is thrown.
+Returns:</p>
+<ul>
+<li>Partnerize SDK: <code>PartnerizeAttribution</code> (<code>clickref: String?</code>)</li>
+<li>Ascend SDK: <code>AscendAttribution</code> (<code>clickId: String?</code>, <code>gClickId: String?</code>) — if provided, <code>clickId</code> must be an integer; <code>gClickId</code> can be used on its own.</li>
+</ul>
+<h3 id="attribution-examples-what-gets-stored">Attribution examples (what gets stored)</h3>
+<p>Example inbound URLs (replace host/path with your deep link handler):</p>
+<ul>
+<li>Partnerize: <code>https://example.com/deeplink?clickref=abc123</code></li>
+<li>Ascend: <code>myapp://open?click_id=42&amp;gclick_id=g-1</code> or <code>myapp://open?gclick_id=g-2</code></li>
+</ul>
+<p><strong>Partnerize (overwrites)</strong></p>
+<pre><code class="language-kotlin">val sdkPartnerize = PartnerizeTracking.partnerize(applicationContext)
+val uriWithClickRef = Uri.parse(&quot;https://example.com/deeplink?clickref=abc123&quot;)
+sdkPartnerize.captureAttribution(uriWithClickRef, persist = true)
+sdkPartnerize.getStoredAttribution().clickRef // &quot;abc123&quot;
+
+// later inbound URL contains clickref=xyz999
+val nextUri = Uri.parse(&quot;https://example.com/deeplink?clickref=xyz999&quot;)
+sdkPartnerize.captureAttribution(nextUri, persist = true)
+sdkPartnerize.getStoredAttribution().clickRef // &quot;xyz999&quot; (previous overwritten)
+</code></pre>
+<p><strong>Ascend (appends)</strong></p>
+<pre><code class="language-kotlin">val sdkAscend = PartnerizeTracking.ascend(applicationContext)
+
+// inbound URL contains click_id=42&amp;gclick_id=g-1
+val uriA = Uri.parse(&quot;myapp://open?click_id=42&amp;gclick_id=g-1&quot;)
+sdkAscend.captureAttribution(uriA, persist = true)
+sdkAscend.getStoredAttribution().clickIds  // [42]
+sdkAscend.getStoredAttribution().gClickIds // [&quot;g-1&quot;]
+
+// later inbound URL contains only gclick_id=g-2 (no click_id)
+val uriB = Uri.parse(&quot;myapp://open?gclick_id=g-2&quot;)
+sdkAscend.captureAttribution(uriB, persist = true)
+sdkAscend.getStoredAttribution().clickIds  // [42]           (unchanged)
+sdkAscend.getStoredAttribution().gClickIds // [&quot;g-1&quot;, &quot;g-2&quot;] (appended)
+</code></pre>
+<hr />
+<h2 id="post-conversions">Post Conversions</h2>
+<p>Create a platform-specific conversion object, then call <code>completeConversion</code> from a coroutine. Stored attribution is injected automatically; you can override it via <code>alternateStoredAttribution</code>.</p>
+<pre><code class="language-kotlin">lifecycleScope.launch {
+    val result = sdkPartnerize.completeConversion(conversion)
+    // result is PartnerizeConversionResult or AscendConversionResult depending on the SDK instance
+}
+</code></pre>
+<p>Signature:</p>
+<pre><code class="language-kotlin">suspend fun completeConversion(
+    conversion: Conversion,
+    alternateStoredAttribution: StoredAttribution? = null,
+): ConversionResult
+</code></pre>
+<hr />
+<h2 id="stored-attribution-utilities">Stored Attribution Utilities</h2>
+<ul>
+<li><code>getStoredAttribution()</code>: returns the currently stored attribution (platform-specific type).</li>
+<li><code>clearStoredAttribution()</code>: removes any stored attribution.</li>
+</ul>
+<p>Use these to inspect or reset attribution state between user sessions or logout flows. Storage behavior differs by platform (see platform sections below for overwrite vs append details).</p>
+<hr />
+<h2 id="logging">Logging</h2>
+<p>Enable built-in logging or provide your own logger:</p>
+<pre><code class="language-kotlin">sdk.loggingEnabled = true
+
+class MyLogger : PartnerizeLogger {
+    override fun log(message: String) {
+        println(message)
+    }
+}
+sdk.logger = MyLogger()
+</code></pre>
+<hr />
+<h1 id="partnerize-platform">Partnerize Platform</h1>
+<p>Initialise with:</p>
+<pre><code class="language-kotlin">val sdkPartnerize = PartnerizeTracking.partnerize(applicationContext)
+</code></pre>
+<h3 id="attribution">Attribution</h3>
+<ul>
+<li><code>PartnerizeAttribution</code> — returned by <code>captureAttribution</code>; fields: <code>clickref: String?</code></li>
+<li><code>PartnerizeStoredAttribution</code> — returned by <code>getStoredAttribution</code>; fields: <code>clickRef: String?</code></li>
+<li>Storage behavior: calling <code>captureAttribution</code> with <code>persist = true</code> overwrites the stored <code>clickRef</code> with the newest valid inbound URL.</li>
+</ul>
+<h2 id="build-a-conversion">Build a Conversion</h2>
+<p>Use <code>PartnerizeConversion.Builder()</code> to configure a conversion. The SDK injects the stored <code>clickRef</code> automatically during <code>completeConversion</code> (or you can supply an alternate stored attribution).</p>
+<pre><code class="language-kotlin">val conversion = PartnerizeConversion.Builder()
+    .setConversionRef(&quot;conv_001&quot;)
+    .setCurrency(&quot;GBP&quot;)
+    .setCountry(&quot;GB&quot;)
+    .setCustomerType(CustomerType.NEW)
+    .addMetadata(&quot;channel&quot;, &quot;app&quot;)
+    .addConversionItem(
+        PartnerizeConversionItem.Builder(&quot;9.99&quot;, &quot;Tops&quot;)
+            .setQuantity(2)
+            .setSku(&quot;SKU123&quot;)
+            .build()
+    )
+    .build()
+
+lifecycleScope.launch {
+    val result: PartnerizeConversionResult = sdkPartnerize.completeConversion(conversion)
+    val conversionId = result.conversionId
+}
+</code></pre>
+<h3 id="builder">Builder</h3>
+<p>Start with <code>PartnerizeConversion.Builder()</code>, then chain:</p>
+<ul>
+<li><code>setConversionRef(String?)</code></li>
+<li><code>setPublisherRef(String?)</code></li>
+<li><code>setAdvertiserRef(String?)</code></li>
+<li><code>setCustomerRef(String?)</code></li>
+<li><code>setCurrency(String?)</code></li>
+<li><code>setCountry(String?)</code></li>
+<li><code>setVoucher(String?)</code></li>
+<li><code>setTrafficSource(String?)</code></li>
+<li><code>setCustomerType(CustomerType?)</code></li>
+<li><code>setConversionMetric(String?)</code></li>
+<li><code>setFulfilmentDate(Date?)</code></li>
+<li><code>setFulfilmentStartDate(Date?)</code></li>
+<li><code>addMetadata(String, String)</code></li>
+<li><code>removeMetadata(String)</code></li>
+<li><code>setConversionItems(List&lt;PartnerizeConversionItem&gt;)</code></li>
+<li><code>addConversionItem(PartnerizeConversionItem)</code></li>
+<li><code>removeConversionItem(PartnerizeConversionItem)</code></li>
+<li><code>build()</code></li>
+<li><code>buildUpon()</code></li>
+</ul>
+<p>Call <code>build()</code> when you are done configuring to produce the conversion. Use <code>buildUpon()</code> to clone an existing conversion and adjust fields without starting from scratch.</p>
+<h3 id="partnerizeconversionitem">PartnerizeConversionItem</h3>
+<pre><code class="language-kotlin">val item = PartnerizeConversionItem.Builder(value = &quot;9.99&quot;, category = &quot;Tops&quot;)
+    .setQuantity(2)
+    .setSku(&quot;SKU123&quot;)
+    .addMetadata(&quot;color&quot;, &quot;red&quot;)
+    .build()
+</code></pre>
+<p>Required: <code>value: String</code>, <code>category: String</code><br />
+Optional: <code>quantity: Int</code>, <code>sku: String?</code>, <code>metadata</code></p>
+<h3 id="conversionresult">ConversionResult</h3>
+<p>Returns <code>PartnerizeConversionResult</code> with:</p>
+<ul>
+<li><code>conversionId: String</code></li>
+</ul>
+<hr />
+<h1 id="ascend-platform">Ascend Platform</h1>
+<p>Initialise with following (replace with your actual Ascend API key):</p>
+<pre><code class="language-kotlin">val sdkAscend = PartnerizeTracking.ascend(applicationContext, &quot;your_ascend_api_key&quot;)
+</code></pre>
+<p>Your Ascend API key can be found https://www.ascendpartner.com/merchant/api/ dashboard under "API Keys" section. If no API key is available, SDK will throw an error when you try to initialise.</p>
+<h3 id="attribution_1">Attribution</h3>
+<ul>
+<li><code>AscendAttribution</code> — returned by <code>captureAttribution</code>; fields: <code>clickId: String?</code>, <code>gClickId: String?</code></li>
+<li><code>AscendStoredAttribution</code> — returned by <code>getStoredAttribution</code>; fields: <code>clickIds: List&lt;Int&gt;</code>, <code>gClickIds: List&lt;String&gt;</code></li>
+<li>Storage behavior: calling <code>captureAttribution</code> with <code>persist = true</code> appends new click IDs (if valid); multiple IDs are kept until you clear them via <code>clearStoredAttribution()</code> method.</li>
+<li><code>clickId</code> is optional, but when present it must be an integer; <code>gClickId</code> alone is accepted and stored.</li>
+</ul>
+<h2 id="build-a-conversion_1">Build a Conversion</h2>
+<p>Use <code>AscendConversion.Builder(...)</code> with the required constructor arguments shown below. Stored click IDs are injected by the SDK when posting the conversion.</p>
+<pre><code class="language-kotlin">val items = listOf(
+    AscendConversionItem.Builder(
+        id = &quot;item_001&quot;,
+        amount = 49.99,
+        quantity = 1
+    ).setCategory(&quot;Tops&quot;).build()
+)
+
+val conversion = AscendConversion.Builder(
+    publisherId = 1234,
+    orderId = &quot;order_001&quot;,
+    items = items,
+    created = &quot;2024-01-01T12:00:00Z&quot;,
+    currency = &quot;GBP&quot;
+)
+    .setType(TransactionType.SALE)
+    .setNewToFile(true)
+    .setCoupons(listOf(&quot;WELCOME10&quot;))
+    .setSegment(&quot;vip&quot;)
+    .build()
+
+lifecycleScope.launch {
+    val result: AscendConversionResult = sdkAscend.completeConversion(conversion)
+    val message = result.message
+}
+</code></pre>
+<h3 id="builder_1">Builder</h3>
+<p>Create the builder with required arguments:</p>
+<ul>
+<li><code>publisherId: Int</code></li>
+<li><code>orderId: String</code></li>
+<li><code>items: List&lt;AscendConversionItem&gt;</code></li>
+<li><code>created: String</code></li>
+<li><code>currency: String</code></li>
+</ul>
+<p>Then chain builder methods:</p>
+<ul>
+<li><code>setType(TransactionType)</code></li>
+<li><code>setNewToFile(Boolean)</code></li>
+<li><code>setCoupons(List&lt;String&gt;)</code></li>
+<li><code>setSegment(String)</code></li>
+<li><code>build()</code></li>
+</ul>
+<p>Call <code>build()</code> when you are done configuring to produce the conversion.</p>
+<h3 id="ascendconversionitem">AscendConversionItem</h3>
+<pre><code class="language-kotlin">val item = AscendConversionItem.Builder(
+    id = &quot;item_001&quot;,
+    amount = 49.99,
+    quantity = 1
+).setCategory(&quot;Tops&quot;).build()
+</code></pre>
+<p>Required: <code>id: String</code>, <code>amount: Double</code>, <code>quantity: Int</code><br />
+Optional: <code>category: String?</code></p>
+<h3 id="conversionresult_1">ConversionResult</h3>
+<p>Returns <code>AscendConversionResult</code> with:</p>
+<ul>
+<li><code>message: String?</code> (API response message)</li>
+</ul>
+<hr />
+<h1 id="license">License</h1>
+<p>Apache-2.0<br />
+https://www.apache.org/licenses/LICENSE-2.0</p>
+<hr />
+<h1 id="support">Support</h1>
+<p>If you encounter any issues, email:</p>
+<p>support@partnerize.com</p>
+<p>Include:</p>
+<ul>
+<li>Steps to reproduce</li>
+<li>URLs used</li>
+<li>Logger output</li>
+<li>SDK version</li>
+</ul>
+<hr />
+<h1 id="release-notes">Release Notes</h1>
+<p>Release notes can be found <a href="https://github.com/PerformanceHorizonGroup/partnerize-mobile-sdk-android/releases">here</a></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-04-21 11:04:05.228558+00:00
+-->
