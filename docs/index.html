@@ -36,7 +36,7 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="nav-item">
-                                <a href="." class="nav-link active" aria-current="page">3.0.0</a>
+                                <a href="." class="nav-link active" aria-current="page">3.0.1</a>
                             </li>
                             <li class="nav-item">
                                 <a href="legacy/" class="nav-link">2.0</a>
@@ -175,19 +175,19 @@
 <p>Add the dependency to your app-level <code>build.gradle</code> file.</p>
 <h4 id="groovy">Groovy</h4>
 <pre><code class="language-groovy">dependencies {
-    implementation 'com.partnerize.android:tracking:3.0.0'
+    implementation 'com.partnerize.android:tracking:3.0.1'
 }
 </code></pre>
 <h4 id="kotlin">Kotlin</h4>
 <pre><code class="language-kotlin">dependencies {
-    implementation(&quot;com.partnerize.android:tracking:3.0.0&quot;)
+    implementation(&quot;com.partnerize.android:tracking:3.0.1&quot;)
 }
 </code></pre>
 <hr />
 <h3 id="manual-installation-aar">Manual Installation (.aar)</h3>
 <p>Use this method if you're provided with the SDK as a <code>.aar</code> file.</p>
 <h4 id="step-1-add-the-file">Step 1: Add the file</h4>
-<p>Place the <code>tracking-3.0.0.aar</code> file in:</p>
+<p>Place the <code>tracking-3.0.1.aar</code> file in:</p>
 <pre><code>app/libs
 </code></pre>
 <h4 id="step-2-update-your-gradle-configuration">Step 2: Update your Gradle configuration</h4>
@@ -199,12 +199,12 @@ repositories {
 }
 
 dependencies {
-    implementation(name: &quot;tracking-3.0.0&quot;, ext: &quot;aar&quot;)
+    implementation(name: &quot;tracking-3.0.1&quot;, ext: &quot;aar&quot;)
 }
 </code></pre>
 <pre><code class="language-kotlin">// kotlin DSL
 dependencies {
-    implementation(files(&quot;libs/tracking-3.0.0.aar&quot;))
+    implementation(files(&quot;libs/tracking-3.0.1.aar&quot;))
 }
 </code></pre>
 <h4 id="step-3-resync-the-gradle-project">Step 3: Resync the gradle project</h4>
@@ -388,12 +388,12 @@ Optional: <code>quantity: Int</code>, <code>sku: String?</code>, <code>metadata<
 )
 
 val conversion = AscendConversion.Builder(
-    publisherId = 1234,
     orderId = &quot;order_001&quot;,
     items = items,
     created = &quot;2024-01-01T12:00:00Z&quot;,
     currency = &quot;GBP&quot;
 )
+    .setPublisherId(1234)
     .setType(TransactionType.SALE)
     .setNewToFile(true)
     .setCoupons(listOf(&quot;WELCOME10&quot;))
@@ -408,7 +408,6 @@ lifecycleScope.launch {
 <h3 id="builder_1">Builder</h3>
 <p>Create the builder with required arguments:</p>
 <ul>
-<li><code>publisherId: Int</code></li>
 <li><code>orderId: String</code></li>
 <li><code>items: List&lt;AscendConversionItem&gt;</code></li>
 <li><code>created: String</code></li>
@@ -416,6 +415,7 @@ lifecycleScope.launch {
 </ul>
 <p>Then chain builder methods:</p>
 <ul>
+<li><code>setPublisherId(Int)</code></li>
 <li><code>setType(TransactionType)</code></li>
 <li><code>setNewToFile(Boolean)</code></li>
 <li><code>setCoupons(List&lt;String&gt;)</code></li>
@@ -536,5 +536,5 @@ https://www.apache.org/licenses/LICENSE-2.0</p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-04-21 11:04:05.228558+00:00
+Build Date UTC : 2026-05-01 09:11:36.695831+00:00
 -->
